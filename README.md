@@ -18,7 +18,7 @@ docker run --name <Any name you like> -p 8080:8080 kamioda/mahjongscoreranking
 
 ### Not use Docker
 
-1. Install Node.js(Supported 20.0.0 or later)
+1. Install Node.js(Supported 20.0.0 or later) and MySQL or MariaDB
 2. Download this application
 3. Start shell your computer installed(ex: Bash, PowerShell)
 4. Move application directory
