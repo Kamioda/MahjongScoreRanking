@@ -31,7 +31,3 @@ Access <http://localhost:8080/> by your browser.
 If you want to share between your friends, use rental server or service released by me.
 
 Service Page: <https://mahjongranking.kamioda.tokyo/>
-
-If you use service released by me, you need to create account for one of the services below.
-
-- [Discord](https://discord.com/)
