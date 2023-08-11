@@ -1,0 +1,26 @@
+{
+    "extends": ["eslint:recommended", "plugin:node/recommended", "prettier", "plugin:mocha/recommended"],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2022
+    },
+    "env": {
+        "node": true,
+        "es6": true,
+        "mocha": true
+    },
+    "rules": {
+        "no-await-in-loop": "error",
+        "no-useless-escape": "error",
+        "no-constant-condition": ["error", { "checkLoops": false }],
+        "no-alert": "error",
+        "eqeqeq": ["error", "always", { "null": "ignore" }],
+        "default-case": "error",
+        "array-callback-return": "error",
+        "require-atomic-updates": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "node/no-missing-import": "off",
+        "node/no-unpublished-import": "off"
+    }
+}
