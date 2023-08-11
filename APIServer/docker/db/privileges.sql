@@ -1,1 +1,1 @@
-GRANT ALL PRIVILEGES ON *.* TO testuser;
+GRANT ALL PRIVILEGES ON *.* TO mahjongranking;
