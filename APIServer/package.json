@@ -9,12 +9,15 @@
   },
   "scripts": {
     "prettier": "prettier --write --end-of-line crlf .",
-    "eslint": "eslint --cache --ext .js .",
-    "eslint:fix": "eslint --cache --ext .js . --fix",
+    "eslint": "eslint --cache --ext .ts .",
+    "eslint:fix": "eslint --cache --ext .ts . --fix",
     "coverage": "c8 npm test",
     "ci": "run-p eslint coverage",
-    "test": "mocha --recursive ./tests/",
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "test": "dotenv -e .env mocha --recursive ./tests/",
+    "init:test": "docker-compose up -d",
+    "migrate:test": "dotenv -e .env -- npx prisma migrate dev",
+    "build": "tsc"
   },
   "author": "Kamioda",
   "license": "GPL-3.0-or-later",
