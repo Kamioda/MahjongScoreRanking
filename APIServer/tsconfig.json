@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es2020",
+        "lib": ["ES2021", "DOM", "DOM.Iterable"],
+        "strict": true,
+        "outDir": "features/",
+        "moduleResolution": "Node",
+        "esModuleInterop": true
+    },
+    "include": ["src/**/*"]
+}

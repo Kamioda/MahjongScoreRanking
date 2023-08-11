@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: mahjongranking
+      MYSQL_PASSWORD: mahjongrankingservice001
+      MYSQL_DATABASE: mahjongranking
