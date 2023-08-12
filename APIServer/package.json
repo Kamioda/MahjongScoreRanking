@@ -14,7 +14,9 @@
     "coverage": "c8 npm test",
     "ci": "run-p eslint coverage",
     "start": "node ./server.js",
-    "test": "dotenv -e .env mocha --recursive ./tests/",
+    "test:spec": "mocha --recursive ./tests/spec/**/*.js",
+    "test:database": "dotenv -e .env mocha --recursive ./tests/database/*.js",
+    "test": "npm run test:spec && npm run test:database",
     "init:test": "docker-compose up -d",
     "migrate:test": "dotenv -e .env -- npx prisma migrate dev",
     "build": "tsc"
