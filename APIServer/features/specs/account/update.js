@@ -1,11 +1,16 @@
 import pkg from '@json-spec/core';
 import { idSpec } from './id.js';
 import { textSpec } from './text.js';
-const { object } = pkg;
+const { object, spec, isValid } = pkg;
 
-export const updateAccountSpec = object({
+const updateAccountSpecBase = object({
     optional: {
         id: idSpec,
         name: textSpec,
     },
+});
+
+export const updateAccountSpec = spec(data => {
+    if (Object.keys(data).length === 0) return false;
+    return isValid(updateAccountSpecBase, data);
 });
