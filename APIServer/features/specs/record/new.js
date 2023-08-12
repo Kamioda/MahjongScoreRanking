@@ -1,5 +1,5 @@
 import pkg from '@json-spec/core';
-import { idSpec } from '../account/id';
+import { idSpec } from '../account/id.js';
 const { spec, isValid } = pkg;
 
 export const newRecordSpec = spec(data => {
