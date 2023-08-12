@@ -23,6 +23,8 @@
         "no-var": "error",
         "prefer-const": "error",
         "node/no-missing-import": "off",
-        "node/no-unpublished-import": "off"
+        "node/no-unpublished-import": "off",
+        "mocha/no-skipped-tests": "error",
+        "mocha/no-exclusive-tests": "error"
     }
 }
