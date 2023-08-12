@@ -9,8 +9,8 @@
   },
   "scripts": {
     "prettier": "prettier --write --end-of-line crlf .",
-    "eslint": "eslint --cache --ext .ts .",
-    "eslint:fix": "eslint --cache --ext .ts . --fix",
+    "eslint": "eslint --cache --ext .js,.ts .",
+    "eslint:fix": "eslint --cache --ext .js,.ts . --fix",
     "coverage": "c8 npm test",
     "ci": "run-p eslint coverage",
     "start": "node ./server.js",
