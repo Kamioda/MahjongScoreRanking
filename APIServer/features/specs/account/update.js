@@ -11,6 +11,6 @@ const updateAccountSpecBase = object({
 });
 
 export const updateAccountSpec = spec(data => {
-    if (Object.keys(data).length === 0) return false;
+    if (data == null || Object.keys(data).length === 0) return false;
     return isValid(updateAccountSpecBase, data);
 });
