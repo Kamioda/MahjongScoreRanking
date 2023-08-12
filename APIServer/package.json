@@ -22,6 +22,7 @@
   "author": "Kamioda",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@json-spec/core": "^0.1.12",
     "@prisma/client": "^5.1.1",
     "crypto": "^1.0.1",
     "express": "^4.18.2",
