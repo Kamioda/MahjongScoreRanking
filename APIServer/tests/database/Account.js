@@ -34,6 +34,20 @@ class AccountManagerForTest {
     async GetAccountCount() {
         return await this.AMI.GetAccountCount();
     }
+    async GetAllAccount() {
+        return this.AMI.Client.accounts
+            .findMany({
+                select: {
+                    ID: true,
+                    UserID: true,
+                    UserName: true,
+                    AccountLevel: true,
+                },
+            })
+            .then(record =>
+                record.map(r => ({ sysid: r.ID, id: r.UserID, name: r.UserName, privilege: r.AccountLevel }))
+            );
+    }
     async DeleteAllAccount() {
         this.AMI.Client.accounts.deleteMany();
     }
