@@ -41,6 +41,16 @@ class AccountManagerForTest {
 
 describe('Account Manager Test', function () {
     const PrePasswordForTest = 'password01';
+    describe('create pre password', function () {
+        it('test/default', function () {
+            const AccountMgr = new AccountManager();
+            assert.match(AccountMgr.createPrePassword(), /^[0-9a-zA-Z]{8}$/);
+        });
+        it('test/custom', function () {
+            const AccountMgr = new AccountManager(15);
+            assert.match(AccountMgr.createPrePassword(), /^[0-9a-zA-Z]{15}$/);
+        });
+    });
     describe('add', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let stubCreatePrePassword = null;
