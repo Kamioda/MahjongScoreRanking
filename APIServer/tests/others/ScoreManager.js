@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { expect } from 'expect';
 const RecordFile = './record.json';
 
-const testDate = new Date();
+const testDate = new Date().toISOString();
 
 const TestUseRecordDataBase = {
     kamioda_ampsprg: [

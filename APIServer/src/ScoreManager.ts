@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface RecordInformation {
     id: string;
-    date: Date;
+    date: string;
     score: number;
 }
 
@@ -31,8 +31,8 @@ export default class ScoreManager {
             ID = uuidv4().replaceAll('-', '');
         return ID;
     }
-    getDate(): Date {
-        return new Date();
+    getDate(): string {
+        return new Date().toISOString();
     }
     #write(NewData: RecordInformations) {
         writeFileSync(this.#FilePath, JSON.stringify(NewData), 'utf-8');
