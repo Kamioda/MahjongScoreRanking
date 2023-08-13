@@ -33,7 +33,7 @@ export default class AccountManager {
     async AddNewAccount(PreID: string, Name: string, Level: number): Promise<NewAccountInformation> {
         const AccountInfo: NewAccountInformation = {
             id: PreID,
-            password: createRandomString({ charset: 'alphanumeric' }),
+            password: createRandomString({ charset: 'alphanumeric', length: 8 }),
         };
         await this.Client.accounts.create({
             data: {
