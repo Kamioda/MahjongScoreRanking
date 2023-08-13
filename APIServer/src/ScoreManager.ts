@@ -20,7 +20,7 @@ export default class ScoreManager {
     constructor(ScoreDataFilePath: string) {
         this.#FilePath = ScoreDataFilePath;
     }
-    #read(): RecordInformations {
+    read(): RecordInformations {
         return (
             existsSync(this.#FilePath) ? {} : JSON.parse(readFileSync(this.#FilePath, 'utf-8'))
         ) as RecordInformations;
@@ -29,7 +29,7 @@ export default class ScoreManager {
         writeFileSync(this.#FilePath, JSON.stringify(NewData));
     }
     add(NewRecord: AdditionalRecordInformations) {
-        const Record = this.#read();
+        const Record = this.read();
         const Now = new Date();
         const RecordID = uuidv4().replaceAll('-', '');
         Object.keys(NewRecord).forEach(i => {
@@ -43,7 +43,7 @@ export default class ScoreManager {
         this.#write(Record);
     }
     remove(RecordID: string) {
-        const Record = this.#read();
+        const Record = this.read();
         Object.keys(Record).forEach(i => {
             const index = Record[i].findIndex(r => r.id === RecordID);
             if (index >= 0) Record[i].splice(index, 1);
