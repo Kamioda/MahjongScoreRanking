@@ -3,12 +3,12 @@ import { privilegeSpec } from '../../../features/specs/account/privilege.js';
 import assert from 'assert';
 const { isValid } = pkg;
 
-describe('Privilege Test', function() {
-    it('valid', function() {
+describe('Privilege Test', function () {
+    it('valid', function () {
         assert.equal(isValid(privilegeSpec, 0), true);
         assert.equal(isValid(privilegeSpec, 1), true);
     });
-    it('invalid', function() {
+    it('invalid', function () {
         assert.equal(isValid(privilegeSpec, 2), false);
         assert.equal(isValid(privilegeSpec, '0'), false);
         assert.equal(isValid(privilegeSpec, '1'), false);

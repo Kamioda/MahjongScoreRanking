@@ -3,8 +3,8 @@ import { textSpec } from '../../../features/specs/account/text.js';
 import assert from 'assert';
 const { isValid } = pkg;
 
-describe('Text Test', function() {
-    it('valid', function() {
+describe('Text Test', function () {
+    it('valid', function () {
         assert.equal(isValid(textSpec, 'あいうえお'), true);
         assert.equal(isValid(textSpec, 'アイウエオ'), true);
         assert.equal(isValid(textSpec, '亜伊宇衣於'), true);
@@ -12,7 +12,7 @@ describe('Text Test', function() {
         assert.equal(isValid(textSpec, 'AIUEO'), true);
         assert.equal(isValid(textSpec, '12345'), true);
     });
-    it('invalid', function() {
+    it('invalid', function () {
         assert.equal(isValid(textSpec, undefined), false);
         assert.equal(isValid(textSpec, null), false);
         assert.equal(isValid(textSpec, 0), false);
