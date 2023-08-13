@@ -25,13 +25,22 @@ export default class ScoreManager {
             existsSync(this.#FilePath) ? {} : JSON.parse(readFileSync(this.#FilePath, 'utf-8'))
         ) as RecordInformations;
     }
+    createId(CurrentRecord: RecordInformations): string {
+        let ID = uuidv4().replaceAll('-', '');
+        while (Object.keys(CurrentRecord).every(i => CurrentRecord[i].every(r => r.id !== ID)))
+            ID = uuidv4().replaceAll('-', '');
+        return ID;
+    }
+    getDate(): Date {
+        return new Date();
+    }
     #write(NewData: RecordInformations) {
         writeFileSync(this.#FilePath, JSON.stringify(NewData));
     }
     add(NewRecord: AdditionalRecordInformations) {
         const Record = this.read();
-        const Now = new Date();
-        const RecordID = uuidv4().replaceAll('-', '');
+        const Now = this.getDate();
+        const RecordID = this.createId(Record);
         Object.keys(NewRecord).forEach(i => {
             if (!Object.keys(Record).includes(i)) Record[i] = [];
             Record[i].push({
