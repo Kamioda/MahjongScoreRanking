@@ -164,13 +164,12 @@ describe('Account Manager Test', function () {
             name: '飯島みらい',
             privilege: 1,
         };
-        let stubCreateId = null;
         before(function () {
-            stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
             AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
         });
         after(function () {
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
             AccountMgr.DeleteAllAccount();
         });
         it('test', function () {
