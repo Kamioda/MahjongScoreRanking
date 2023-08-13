@@ -35,7 +35,7 @@ export default class ScoreManager {
         return new Date();
     }
     #write(NewData: RecordInformations) {
-        writeFileSync(this.#FilePath, JSON.stringify(NewData));
+        writeFileSync(this.#FilePath, JSON.stringify(NewData), 'utf-8');
     }
     add(NewRecord: AdditionalRecordInformations) {
         const Record = this.read();
