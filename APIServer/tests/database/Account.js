@@ -97,4 +97,27 @@ describe('Account Manager Test', function () {
             });
         });
     });
+    describe('get user', function () {
+        const TestID = '50a16faf10b048798cc92ca73861d7ea';
+        const AccountMgr = new AccountManagerForTest(new AccountManager());
+        const TestAccount = {
+            id: 'mirai_amairo',
+            name: '飯島みらい',
+            privilege: 1,
+        };
+        let stubCreateId = null;
+        before(function () {
+            stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+        });
+        after(function () {
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test', function () {
+            AccountMgr.GetAccountInfo(TestID).then(i => {
+                assert.deepEqual(i, TestAccount);
+            });
+        });
+    });
 });
