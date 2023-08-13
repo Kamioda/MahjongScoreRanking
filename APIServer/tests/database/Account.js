@@ -98,24 +98,26 @@ describe('Account Manager Test', function () {
         });
     });
     describe('create id', function() {
-        const TestID = '50a16faf10b048798cc92ca73861d7ea';
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
-        const TestAccount = {
-            id: 'kamioda_ampsprg',
-            name: '神御田',
-            privilege: 0,
-        };
-        before(function () {
-            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
-        });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function() {
-            AccountMgr.AMI.createId().then(id => {
-                assert.notEqual(id, TestID);
+        describe('use mock', function(){
+            const TestID = '50a16faf10b048798cc92ca73861d7ea';
+            const AccountMgr = new AccountManagerForTest(new AccountManager());
+            const TestAccount = {
+                id: 'kamioda_ampsprg',
+                name: '神御田',
+                privilege: 0,
+            };
+            before(function () {
+                const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+                if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            });
+            after(function () {
+                AccountMgr.DeleteAllAccount();
+            });
+            it('test', function() {
+                AccountMgr.AMI.createId().then(id => {
+                    assert.notEqual(id, TestID);
+                });
             });
         });
     });
