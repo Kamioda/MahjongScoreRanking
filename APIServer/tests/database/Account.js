@@ -219,4 +219,32 @@ describe('Account Manager Test', function () {
             });
         });
     });
+    describe('delete user', function() {
+        const AccountMgr = new AccountManagerForTest(new AccountManager());
+        let AccountCount = 0;
+        before(function() {
+            const Accounts = ReadMultiAccountFile();
+            AccountCount = Accounts.users.length;
+            Accounts.users.forEach(i => {
+                AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
+            });
+        });
+        after(function() {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test', function() {
+            AccountMgr.GetAllAccount().then(records => {
+                const Index = createRandom(0, AccountCount - 1);
+                const deleteTargetId = records[Index].sysid;
+                records.splice(Index, 1);
+                AccountMgr.DeleteUser(deleteTargetId)
+                .then(() => AccountMgr.GetAllAccount())
+                .then(recordsAfter => {
+                    for (let i = 0; i < records.length - 1; i++) {
+                        assert.deepEqual(recordsAfter[i], records[i]);
+                    }
+                });
+            });
+        });
+    });
 });
