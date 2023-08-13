@@ -30,15 +30,15 @@ const TestUseRecordDataBase = {
 };
 
 describe('ScoreManager Test', function () {
-    describe('get date', function() {
-        it('test', function() {
+    describe('get date', function () {
+        it('test', function () {
             const clock = sinon.useFakeTimers(testDate);
             const ScoreMgr = new ScoreManager(RecordFile);
             assert.equal(ScoreMgr.getDate(), testDateStr);
             clock.restore();
         });
     });
-    describe('read', function () {
+    describe('read/file exist', function () {
         before(function () {
             writeFileSync(RecordFile, JSON.stringify(TestUseRecordDataBase));
         });
@@ -49,6 +49,13 @@ describe('ScoreManager Test', function () {
             const ScoreMgr = new ScoreManager(RecordFile);
             const Result = ScoreMgr.read();
             assert.deepEqual(Result, TestUseRecordDataBase);
+        });
+    });
+    describe('read/file not exist', function () {
+        it('test', function () {
+            const ScoreMgr = new ScoreManager(RecordFile);
+            const Result = ScoreMgr.read();
+            assert.deepEqual(Result, {});
         });
     });
     describe('create ID', function () {

@@ -39,7 +39,7 @@ const ngPattern = {
         KAMIODA: 25000,
         kamioda$ampsprg: 25000,
         KamiodaAmpsprg: 25000,
-    }
+    },
 };
 
 describe('New Record Add Request Body', function () {
@@ -58,10 +58,10 @@ describe('New Record Add Request Body', function () {
         it('empty', function () {
             assert.equal(isValid(newRecordSpec, ngPattern.empty), false);
         });
-        it('not object', function() {
+        it('not object', function () {
             assert.equal(isValid(newRecordSpec, ngPattern.notObject), false);
         });
-        it('invalid id', function() {
+        it('invalid id', function () {
             assert.equal(isValid(newRecordSpec, ngPattern.invalidId), false);
         });
     });
