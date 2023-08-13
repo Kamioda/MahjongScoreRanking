@@ -102,6 +102,7 @@ export default class AccountManager {
                     ID: true,
                     UserID: true,
                     UserName: true,
+                    AccountLevel: true
                 },
                 where: {
                     ID: ID,
@@ -112,6 +113,7 @@ export default class AccountManager {
                 return {
                     id: result.UserID,
                     name: result.UserName,
+                    privilege: result.AccountLevel
                 };
             });
     }
