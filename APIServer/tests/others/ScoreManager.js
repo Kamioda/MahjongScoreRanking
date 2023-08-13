@@ -68,7 +68,6 @@ describe('ScoreManager Test', function () {
     });
     describe('add', function () {
         let stubUUIDV4 = null;
-        let stubDate = null;
         const TestAddRecordData = {
             kamioda_ampsprg: [
                 { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 25000 },
@@ -97,18 +96,18 @@ describe('ScoreManager Test', function () {
             writeFileSync(RecordFile, JSON.stringify(TestUseRecordDataBase));
         });
         it('test', function () {
+            const clock = sinon.useFakeTimers(testDate);
             const ScoreMgr = new ScoreManager(RecordFile);
             stubUUIDV4 = sinon.stub(ScoreMgr, 'createId').callsFake(val => {
                 expect(typeof val).toBe('object');
                 return 'b305e055212d45a08e0d4b0491543f5f';
             });
-            stubDate = sinon.stub(ScoreMgr, 'getDate').callsFake(() => testDateStr);
             ScoreMgr.add({ kamioda_ampsprg: 1000, ayaka_meigetsu: 104000, amairo_miyuki: 0 });
             assert.deepEqual(ScoreMgr.read(), TestAddRecordData);
+            clock.restore();
         });
         after(function () {
             if (stubUUIDV4 && stubUUIDV4.restore) stubUUIDV4.restore();
-            if (stubDate && stubDate.restore) stubDate.restore();
             unlinkSync(RecordFile);
         });
     });
