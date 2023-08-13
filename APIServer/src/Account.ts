@@ -50,18 +50,19 @@ export default class AccountManager {
             id: PreID,
             password: this.createPrePassword(),
         };
-        await this.createId().then(accountId =>
-            this.Client.accounts.create({
-                data: {
-                    ID: accountId,
-                    UserID: PreID,
-                    UserName: Name,
-                    Password: HashPassword(AccountInfo.password),
-                    AccountLevel: Level,
-                },
-            })
-        );
-        return AccountInfo;
+        return await this.createId()
+            .then(accountId =>
+                this.Client.accounts.create({
+                    data: {
+                        ID: accountId,
+                        UserID: PreID,
+                        UserName: Name,
+                        Password: HashPassword(AccountInfo.password),
+                        AccountLevel: Level,
+                    },
+                })
+            )
+            .then(() => AccountInfo);
     }
     async ChangePassword(ID: string, NewPassword: string) {
         await this.Client.accounts.update({
