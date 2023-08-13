@@ -120,6 +120,30 @@ describe('Account Manager Test', function () {
                 });
             });
         });
+        describe('not use mock', function() {
+            const AccountMgr = new AccountManagerForTest(new AccountManager());
+            const TestAccount = {
+                id: 'kamioda_ampsprg',
+                name: '神御田',
+                privilege: 0,
+            };
+            let TestUserID = '';
+            before(function () {
+                AccountMgr.DeleteAllAccount();
+                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+                AccountMgr.GetAllAccount().then(records => {
+                    TestUserID = records[0].sysid;
+                });
+            });
+            after(function () {
+                AccountMgr.DeleteAllAccount();
+            });
+            it('test', function() {
+                AccountMgr.AMI.createId().then(id => {
+                    assert.notEqual(id, TestUserID);
+                });
+            });
+        });
     });
     describe('get user', function () {
         const TestID = '50a16faf10b048798cc92ca73861d7ea';
