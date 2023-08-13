@@ -75,7 +75,7 @@ describe('ScoreManager Test', function() {
             writeFileSync(RecordFile, JSON.stringify(TestUseRecordDataBase));
         });
         it('valid', function() {
-            const ScoreMgr = new ScoreManager();
+            const ScoreMgr = new ScoreManager(RecordFile);
             stubUUIDV4 = sinon.stub(ScoreMgr, 'createId').callsFake(val => {
                 expect(typeof val).toBe('object');
                 return 'b305e055212d45a08e0d4b0491543f5f';
