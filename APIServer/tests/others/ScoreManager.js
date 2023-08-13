@@ -42,6 +42,21 @@ describe('ScoreManager Test', function() {
             assert.deepEqual(Result, TestUseRecordDataBase);
         });
     });
+    describe('create ID', function() {
+        it('test', function() {
+            const ScoreMgr = new ScoreManager(RecordFile);
+            const ID = ScoreMgr.createId(TestUseRecordDataBase);
+            TestUseRecordDataBase.kamioda_ampsprg.forEach(i => {
+                assert.notEqual(ID, i.id);
+            });
+            TestUseRecordDataBase.ayaka_meigetsu.forEach(i => {
+                assert.notEqual(ID, i.id);
+            });
+            TestUseRecordDataBase.mirai_amairo.forEach(i => {
+                assert.notEqual(ID, i.id);
+            });
+        })
+    });
     describe('add', function() {
         let stubUUIDV4 = null;
         let stubDate = null;
