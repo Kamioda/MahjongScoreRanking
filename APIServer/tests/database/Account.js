@@ -182,13 +182,15 @@ describe('Account Manager Test', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let AccountCount = 0;
         before(function () {
-            const stub = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(() => PrePasswordForTest);
+            const stubCreatePrePassword = sinon
+                .stub(AccountMgr.AMI, 'createPrePassword')
+                .callsFake(() => PrePasswordForTest);
             const Accounts = ReadMultiAccountFile();
             AccountCount = Accounts.users.length;
             Accounts.users.forEach(i => {
                 AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
             });
-            if (stub && stub.restore) stub.restore();
+            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
         after(function () {
             AccountMgr.DeleteAllAccount();
