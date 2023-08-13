@@ -30,20 +30,35 @@ export default class AccountManager {
     constructor() {
         this.Client = new PrismaClient();
     }
+    async createId(): Promise<string> {
+        const generatedId = uuidv4().replaceAll('-', '');
+        return await this.Client.accounts
+            .count({
+                where: {
+                    ID: generatedId,
+                },
+            })
+            .then(result => (result === 0 ? Promise.resolve(generatedId) : this.createId()));
+    }
+    createPrePassword(): string {
+        return createRandomString({ charset: 'alphanumeric', length: 8 });
+    }
     async AddNewAccount(PreID: string, Name: string, Level: number): Promise<NewAccountInformation> {
         const AccountInfo: NewAccountInformation = {
             id: PreID,
-            password: createRandomString({ charset: 'alphanumeric', length: 8 }),
+            password: this.createPrePassword(),
         };
-        await this.Client.accounts.create({
-            data: {
-                ID: uuidv4().replaceAll('-', ''),
-                UserID: PreID,
-                UserName: Name,
-                Password: HashPassword(AccountInfo.password),
-                AccountLevel: Level,
-            },
-        });
+        await this.createId().then(accountId =>
+            this.Client.accounts.create({
+                data: {
+                    ID: accountId,
+                    UserID: PreID,
+                    UserName: Name,
+                    Password: HashPassword(AccountInfo.password),
+                    AccountLevel: Level,
+                },
+            })
+        );
         return AccountInfo;
     }
     async ChangePassword(ID: string, NewPassword: string) {
