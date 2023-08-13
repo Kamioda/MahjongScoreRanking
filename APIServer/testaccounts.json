@@ -1,0 +1,34 @@
+{
+    "users": [
+        {
+            "id": "kamioda_ampsprg",
+            "name": "神御田",
+            "privilege": 0
+        },
+        {
+            "id": "ayaka_meigetsu",
+            "name": "明月彩香",
+            "privilege": 1
+        },
+        {
+            "id": "mirai_amairo",
+            "name": "飯島みらい",
+            "privilege": 1
+        },
+        {
+            "id": "amairo_miyuki",
+            "name": "愛野みゆき",
+            "privilege": 1
+        },
+        {
+            "id": "mizuki_otokoe",
+            "name": "木下瑞希",
+            "privilege": 1
+        },
+        {
+            "id": "otokoe_aoi",
+            "name": "一ノ瀬葵",
+            "privilege": 1
+        }
+    ]
+}

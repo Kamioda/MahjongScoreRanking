@@ -2,6 +2,12 @@ import AccountManager from '../../features/Account.js';
 import assert from 'assert';
 import * as sinon from 'sinon';
 import { expect } from 'expect';
+import { readFileSync } from 'fs';
+
+const ReadMultiAccountFile = () => {
+    return JSON.parse(readFileSync('./testaccounts.json', 'utf-8'));
+};
+
 
 class AccountManagerForTest {
     constructor(AccountManagerInstance) {
