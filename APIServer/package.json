@@ -16,7 +16,7 @@
     "start": "node ./server.js",
     "test:spec": "mocha --recursive ./tests/spec/**/*.js",
     "test:others": "mocha --recursive ./tests/others/**/*.js",
-    "test:database": "dotenv -e .env mocha --recursive ./tests/database/*.js",
+    "test:database": "dotenv -e .env -- mocha --recursive ./tests/database/*.js",
     "test": "npm run test:spec &&  npm run test:others && npm run test:database",
     "init:test": "docker-compose up -d",
     "migrate:test": "dotenv -e .env -- npx prisma migrate dev",
