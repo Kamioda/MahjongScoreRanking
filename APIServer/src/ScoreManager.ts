@@ -27,7 +27,7 @@ export default class ScoreManager {
     }
     createId(CurrentRecord: RecordInformations): string {
         let ID = uuidv4().replaceAll('-', '');
-        while (Object.keys(CurrentRecord).every(i => CurrentRecord[i].every(r => r.id !== ID)))
+        while (Object.keys(CurrentRecord).every(i => CurrentRecord[i].some(r => r.id === ID)))
             ID = uuidv4().replaceAll('-', '');
         return ID;
     }
