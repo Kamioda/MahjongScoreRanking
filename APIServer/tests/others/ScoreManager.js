@@ -80,7 +80,7 @@ describe('ScoreManager Test', function() {
                 expect(typeof val).toBe('object');
                 return 'b305e055212d45a08e0d4b0491543f5f';
             });
-            stubDate = sinon.sbut(ScoreMgr, 'getDate').callsFake(() => testDate);
+            stubDate = sinon.stub(ScoreMgr, 'getDate').callsFake(() => testDate);
             ScoreMgr.add({ kamioda_ampsprg: 1000, ayaka_meigetsu: 104000, amairo_miyuki: 0 });
             assert.deepEqual(ScoreMgr.read(), TestAddRecordData);
         });
