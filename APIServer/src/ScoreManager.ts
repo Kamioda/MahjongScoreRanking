@@ -22,7 +22,7 @@ export default class ScoreManager {
     }
     read(): RecordInformations {
         return (
-            existsSync(this.#FilePath) ? {} : JSON.parse(readFileSync(this.#FilePath, 'utf-8'))
+            existsSync(this.#FilePath) ? JSON.parse(readFileSync(this.#FilePath, 'utf-8')) : {}
         ) as RecordInformations;
     }
     createId(CurrentRecord: RecordInformations): string {
