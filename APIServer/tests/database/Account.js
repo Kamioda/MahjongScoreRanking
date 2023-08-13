@@ -140,7 +140,6 @@ describe('Account Manager Test', function () {
             };
             let TestUserID = '';
             before(function () {
-                AccountMgr.DeleteAllAccount();
                 AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
                 AccountMgr.GetAllAccount().then(records => {
                     TestUserID = records[0].sysid;
