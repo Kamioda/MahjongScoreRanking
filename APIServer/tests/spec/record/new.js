@@ -33,6 +33,13 @@ const ngPattern = {
         KAMIODA_AMPSPRG: 25000,
     },
     empty: {},
+    notObject: 25000,
+    invalidId: {
+        kamioda: 25000,
+        KAMIODA: 25000,
+        kamioda$ampsprg: 25000,
+        KamiodaAmpsprg: 25000,
+    }
 };
 
 describe('New Record Add Request Body', function () {
@@ -50,6 +57,12 @@ describe('New Record Add Request Body', function () {
         });
         it('empty', function () {
             assert.equal(isValid(newRecordSpec, ngPattern.empty), false);
+        });
+        it('not object', function() {
+            assert.equal(isValid(newRecordSpec, ngPattern.notObject), false);
+        });
+        it('invalid id', function() {
+            assert.equal(isValid(newRecordSpec, ngPattern.invalidId), false);
         });
     });
 });
