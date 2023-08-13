@@ -2,7 +2,7 @@ import ScoreManager from "../../features/ScoreManager.js";
 import assert from 'assert';
 import { writeFileSync, existsSync, unlinkSync } from 'fs';
 import * as sinon from 'sinon';
-import expect from 'expect';
+import { expect } from 'expect';
 const RecordFile = './record.json';
 
 const testDate = new Date();
