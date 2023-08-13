@@ -27,8 +27,10 @@ export const HashPassword = RawPassword => {
 
 export default class AccountManager {
     Client: PrismaClient;
-    constructor() {
+    PrePasswordLength: number;
+    constructor(PrePasswordLength: number = 8) {
         this.Client = new PrismaClient();
+        this.PrePasswordLength = PrePasswordLength;
     }
     async createId(): Promise<string> {
         const generatedId = uuidv4().replaceAll('-', '');
@@ -41,7 +43,7 @@ export default class AccountManager {
             .then(result => (result === 0 ? Promise.resolve(generatedId) : this.createId()));
     }
     createPrePassword(): string {
-        return createRandomString({ charset: 'alphanumeric', length: 8 });
+        return createRandomString({ charset: 'alphanumeric', length: this.PrePasswordLength });
     }
     async AddNewAccount(PreID: string, Name: string, Level: number): Promise<NewAccountInformation> {
         const AccountInfo: NewAccountInformation = {
