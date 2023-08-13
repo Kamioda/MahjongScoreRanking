@@ -5,30 +5,39 @@ import * as sinon from 'sinon';
 import { expect } from 'expect';
 const RecordFile = './record.json';
 
-const testDate = new Date().toISOString();
+const testDate = new Date();
+const testDateStr = testDate.toISOString();
 
 const TestUseRecordDataBase = {
     kamioda_ampsprg: [
-        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 25000 },
-        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 17000 },
-        { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 23000 },
-        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 40000 },
+        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 25000 },
+        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 17000 },
+        { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 23000 },
+        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 40000 },
     ],
     ayaka_meigetsu: [
-        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 90000 },
-        { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 0 },
-        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 120000 },
+        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 90000 },
+        { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 0 },
+        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 120000 },
     ],
     mirai_amairo: [
-        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: -2000 },
-        { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 82000 },
-        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: -55000 },
+        { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+        { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: -2000 },
+        { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 82000 },
+        { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: -55000 },
     ],
 };
 
 describe('ScoreManager Test', function () {
+    describe('get date', function() {
+        it('test', function() {
+            const clock = sinon.useFakeTimers(testDate);
+            const ScoreMgr = new ScoreManager(RecordFile);
+            assert.equal(ScoreMgr.getDate(), testDateStr);
+            clock.restore();
+        });
+    });
     describe('read', function () {
         before(function () {
             writeFileSync(RecordFile, JSON.stringify(TestUseRecordDataBase));
@@ -62,26 +71,26 @@ describe('ScoreManager Test', function () {
         let stubDate = null;
         const TestAddRecordData = {
             kamioda_ampsprg: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 25000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 17000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 23000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 40000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 1000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 25000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 17000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 23000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 40000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 1000 },
             ],
             ayaka_meigetsu: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 90000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 0 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 120000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 104000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 90000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 0 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 120000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 104000 },
             ],
             mirai_amairo: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: -2000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 82000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: -55000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: -2000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 82000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: -55000 },
             ],
-            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 0 }],
+            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 0 }],
         };
         before(function () {
             if (existsSync(RecordFile)) unlinkSync(RecordFile);
@@ -93,7 +102,7 @@ describe('ScoreManager Test', function () {
                 expect(typeof val).toBe('object');
                 return 'b305e055212d45a08e0d4b0491543f5f';
             });
-            stubDate = sinon.stub(ScoreMgr, 'getDate').callsFake(() => testDate);
+            stubDate = sinon.stub(ScoreMgr, 'getDate').callsFake(() => testDateStr);
             ScoreMgr.add({ kamioda_ampsprg: 1000, ayaka_meigetsu: 104000, amairo_miyuki: 0 });
             assert.deepEqual(ScoreMgr.read(), TestAddRecordData);
         });
@@ -106,46 +115,46 @@ describe('ScoreManager Test', function () {
     describe('remove', function () {
         const TestBeforeRemoveRecordData = {
             kamioda_ampsprg: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 25000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 17000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 23000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 40000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 1000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 25000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 17000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 23000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 40000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 1000 },
             ],
             ayaka_meigetsu: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 90000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 0 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 120000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 104000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 90000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 0 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 120000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 104000 },
             ],
             mirai_amairo: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: -2000 },
-                { id: '72c9f897ece34c46852ea1882cba8790', date: testDate, score: 82000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: -55000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: -2000 },
+                { id: '72c9f897ece34c46852ea1882cba8790', date: testDateStr, score: 82000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: -55000 },
             ],
-            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 0 }],
+            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 0 }],
         };
         const TestAfterRemoveRecordData = {
             kamioda_ampsprg: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 25000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 17000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 40000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 1000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 25000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 17000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 40000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 1000 },
             ],
             ayaka_meigetsu: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: 90000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: 120000 },
-                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 104000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: 90000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: 120000 },
+                { id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 104000 },
             ],
             mirai_amairo: [
-                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDate, score: 40000 },
-                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDate, score: -2000 },
-                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDate, score: -55000 },
+                { id: '0ec8171c88c94b4e9df484df302a90dd', date: testDateStr, score: 40000 },
+                { id: 'e0c4e6db48884b338b5f069099958a74', date: testDateStr, score: -2000 },
+                { id: 'f321a0644733488c9a307ff1d9950a1e', date: testDateStr, score: -55000 },
             ],
-            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDate, score: 0 }],
+            amairo_miyuki: [{ id: 'b305e055212d45a08e0d4b0491543f5f', date: testDateStr, score: 0 }],
         };
         before(function () {
             if (existsSync(RecordFile)) unlinkSync(RecordFile);
