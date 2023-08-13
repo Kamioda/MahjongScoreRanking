@@ -36,7 +36,7 @@ describe('ScoreManager Test', function() {
         after(function() {
             unlinkSync(RecordFile);
         });
-        it('read', function() {
+        it('test', function() {
             const ScoreMgr = new ScoreManager(RecordFile);
             const Result = ScoreMgr.read();
             assert.deepEqual(Result, TestUseRecordDataBase);
@@ -74,7 +74,7 @@ describe('ScoreManager Test', function() {
             if (existsSync(RecordFile)) unlinkSync(RecordFile);
             writeFileSync(RecordFile, JSON.stringify(TestUseRecordDataBase));
         });
-        it('valid', function() {
+        it('test', function() {
             const ScoreMgr = new ScoreManager(RecordFile);
             stubUUIDV4 = sinon.stub(ScoreMgr, 'createId').callsFake(val => {
                 expect(typeof val).toBe('object');
