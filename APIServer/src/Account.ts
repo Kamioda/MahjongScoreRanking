@@ -86,7 +86,7 @@ export default class AccountManager {
         });
     }
     async ChangePrivilege(ID: string, NewPriv: number) {
-        this.Client.accounts.update({
+        await this.Client.accounts.update({
             data: {
                 AccountLevel: NewPriv,
             },
@@ -96,7 +96,7 @@ export default class AccountManager {
         });
     }
     async GetAccountInfo(ID: string): Promise<UserInformation> {
-        return this.Client.accounts
+        return await this.Client.accounts
             .findUnique({
                 select: {
                     ID: true,
@@ -118,7 +118,7 @@ export default class AccountManager {
             });
     }
     async SignIn(ID, Password): Promise<string> {
-        return this.Client.accounts
+        return await this.Client.accounts
             .findMany({
                 select: {
                     ID: true,
@@ -142,13 +142,13 @@ export default class AccountManager {
             });
     }
     async DeleteUser(ID: string) {
-        this.Client.accounts.delete({
+        await this.Client.accounts.delete({
             where: {
                 ID: ID,
             },
         });
     }
     async GetAccountCount() {
-        return this.Client.accounts.count();
+        return await this.Client.accounts.count();
     }
 }
