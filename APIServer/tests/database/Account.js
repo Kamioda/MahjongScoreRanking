@@ -339,4 +339,93 @@ describe('Account Manager Test', function () {
                 });
         });
     });
+    describe('change user info', function () {
+        const TestID = 'b20046fe0ca7480292a0b27e1426f5e8';
+        const TestAccount = {
+            id: 'otokoe_aoi',
+            name: '一ノ瀬葵',
+            privilege: 1,
+        };
+        const NewRecordInfo = {
+            nameUpdate: {
+                arg: {
+                    name: '一ノ瀬桜子',
+                },
+                correct: {
+                    id: 'otokoe_aoi',
+                    name: '一ノ瀬桜子',
+                    privilege: 1,
+                },
+            },
+            idUpdate: {
+                arg: {
+                    id: 'aoi_otokoe',
+                },
+                correct: {
+                    id: 'aoi_otokoe',
+                    name: '一ノ瀬葵',
+                    privilege: 1,
+                },
+            },
+            bothUpdate: {
+                arg: {
+                    id: 'otokoe_sakurako',
+                    name: '一ノ瀬桜子',
+                },
+                correct: {
+                    id: 'otokoe_sakurako',
+                    name: '一ノ瀬桜子',
+                    privilege: 1,
+                },
+            },
+        };
+        before(function () {
+            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+        });
+        after(function () {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test/no update', function () {
+            AccountMgr.ChangeUserInfo(TestID, {})
+                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(record => {
+                    assert.deepEqual(record, TestAccount);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+        it('test/name update', function () {
+            AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.nameUpdate.arg)
+                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(record => {
+                    assert.deepEqual(record, NewRecordInfo.nameUpdate.correct);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+        it('test/id update', function () {
+            AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.idUpdate.arg)
+                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(record => {
+                    assert.deepEqual(record, NewRecordInfo.idUpdate.correct);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+        it('test/both update', function () {
+            AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.bothUpdate.arg)
+                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(record => {
+                    assert.deepEqual(record, NewRecordInfo.bothUpdate.correct);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+    });
 });
