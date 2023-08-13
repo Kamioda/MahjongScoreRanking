@@ -10,9 +10,10 @@
         "**/samples",
         "**/scripts",
         "**/src/**/v*/**/*.js",
-        "**/test",
+        "**/tests",
         ".jsdoc.js",
         "**/.jsdoc.js",
+        "**/*.ts",
         "karma.conf.js",
         "webpack-tests.config.js",
         "webpack.config.js"
