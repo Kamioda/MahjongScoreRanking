@@ -267,4 +267,58 @@ describe('Account Manager Test', function () {
             });
         });
     });
+    describe('change password', function () {
+        const TestAccount = {
+            id: 'amairo_miyuki',
+            name: '愛野みゆき',
+            privilege: 1,
+        };
+        const TestID = '50a16faf10b048798cc92ca73861d7ea';
+        const NewPassword = 'passwordnew001';
+        const AccountMgr = new AccountManagerForTest(new AccountManager());
+        before(function () {
+            const stubCreatePrePassword = sinon
+                .stub(AccountMgr.AMI, 'createPrePassword')
+                .callsFake(() => PrePasswordForTest);
+            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+        });
+        after(function () {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test', function () {
+            AccountMgr.SignIn(TestAccount, PrePasswordForTest)
+                .then(id => {
+                    assert.equal(id, TestID);
+                })
+                .catch(() => {
+                    assert.ok();
+                });
+            AccountMgr.SignIn(TestAccount, NewPassword)
+                .then(() => {
+                    assert.fail();
+                })
+                .catch(() => {
+                    assert.ok();
+                });
+            AccountMgr.ChangePassword(TestID, NewPassword).then(() => {
+                AccountMgr.SignIn(TestAccount, NewPassword)
+                    .then(id => {
+                        assert.equal(id, TestID);
+                    })
+                    .catch(() => {
+                        assert.ok();
+                    });
+                AccountMgr.SignIn(TestAccount, PrePasswordForTest)
+                    .then(() => {
+                        assert.fail();
+                    })
+                    .catch(() => {
+                        assert.ok();
+                    });
+            });
+        });
+    });
 });
