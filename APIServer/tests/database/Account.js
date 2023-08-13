@@ -66,18 +66,18 @@ class AccountManagerForTest {
 
 describe('Account Manager Test', function () {
     const PrePasswordForTest = 'password01';
+    const AccountMgr = new AccountManagerForTest(new AccountManager());
     describe('create pre password', function () {
         it('test/default', function () {
-            const AccountMgr = new AccountManager();
-            assert.match(AccountMgr.createPrePassword(), /^[0-9a-zA-Z]{8}$/);
+            const AccountMgrForCreatePrePassword = new AccountManager();
+            assert.match(AccountMgrForCreatePrePassword.createPrePassword(), /^[0-9a-zA-Z]{8}$/);
         });
         it('test/custom', function () {
-            const AccountMgr = new AccountManager(15);
-            assert.match(AccountMgr.createPrePassword(), /^[0-9a-zA-Z]{15}$/);
+            const AccountMgrForCreatePrePassword = new AccountManager(15);
+            assert.match(AccountMgrForCreatePrePassword.createPrePassword(), /^[0-9a-zA-Z]{15}$/);
         });
     });
     describe('add', function () {
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         let stubCreatePrePassword = null;
         before(function () {
             stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(len => {
@@ -111,7 +111,6 @@ describe('Account Manager Test', function () {
     describe('create id', function () {
         describe('use mock', function () {
             const TestID = '50a16faf10b048798cc92ca73861d7ea';
-            const AccountMgr = new AccountManagerForTest(new AccountManager());
             const TestAccount = {
                 id: 'kamioda_ampsprg',
                 name: '神御田',
@@ -132,7 +131,6 @@ describe('Account Manager Test', function () {
             });
         });
         describe('not use mock', function () {
-            const AccountMgr = new AccountManagerForTest(new AccountManager());
             const TestAccount = {
                 id: 'kamioda_ampsprg',
                 name: '神御田',
@@ -157,7 +155,6 @@ describe('Account Manager Test', function () {
     });
     describe('get user', function () {
         const TestID = '50a16faf10b048798cc92ca73861d7ea';
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         const TestAccount = {
             id: 'mirai_amairo',
             name: '飯島みらい',
@@ -178,7 +175,6 @@ describe('Account Manager Test', function () {
         });
     });
     describe('sign in', function () {
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         let AccountCount = 0;
         before(function () {
             const stubCreatePrePassword = sinon
@@ -220,7 +216,6 @@ describe('Account Manager Test', function () {
         });
     });
     describe('delete user', function () {
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         let AccountCount = 0;
         before(function () {
             const Accounts = ReadMultiAccountFile();
@@ -248,7 +243,6 @@ describe('Account Manager Test', function () {
         });
     });
     describe('get account count', function () {
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         let CorrectAccountCount = 0;
         before(function () {
             const Accounts = ReadMultiAccountFile();
@@ -274,7 +268,6 @@ describe('Account Manager Test', function () {
         };
         const TestID = '50a16faf10b048798cc92ca73861d7ea';
         const NewPassword = 'passwordnew001';
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         before(function () {
             const stubCreatePrePassword = sinon
                 .stub(AccountMgr.AMI, 'createPrePassword')
@@ -327,7 +320,6 @@ describe('Account Manager Test', function () {
             name: '木下瑞希',
             privilege: 1,
         };
-        const AccountMgr = new AccountManagerForTest(new AccountManager());
         before(function () {
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
             AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
