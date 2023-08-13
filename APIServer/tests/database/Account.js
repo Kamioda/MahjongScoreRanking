@@ -44,29 +44,29 @@ describe('Account Manager Test', function () {
     describe('add', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let stubCreatePrePassword = null;
-        before(function() {
+        before(function () {
             stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(len => {
                 expect(len).toBeGreaterThan(1);
                 return PrePasswordForTest;
             });
         });
-        after(function() {
+        after(function () {
             AccountMgr.DeleteAllAccount();
             if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
         it('test/admin', function () {
             const expected = {
                 id: 'kamioda_ampsprg',
-                password: PrePasswordForTest
+                password: PrePasswordForTest,
             };
             AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0).then(data => {
                 assert.deepEqual(data, expected);
             });
         });
-        it('test/user', function() {
+        it('test/user', function () {
             const expected = {
                 id: 'ayaka_meigetsu',
-                password: PrePasswordForTest
+                password: PrePasswordForTest,
             };
             AccountMgr.AddNewAccount('ayaka_meigetsu', '明月彩香', 1).then(data => {
                 assert.deepEqual(data, expected);
