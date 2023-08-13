@@ -1,14 +1,9 @@
 import AccountManager from '../../features/Account.js';
-import { PrismaClient } from '@prisma/client';
 import assert from 'assert';
 
 describe('Account Manager Test', function () {
     const AccountMgr = new AccountManager();
-    const Client = new PrismaClient();
     describe('add', function () {
-        after(async function () {
-            await Client.accounts.deleteMany();
-        });
         it('test', async function () {
             await AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0).then(data => {
                 assert.equal(data.id, 'kamioda_ampsprg');
