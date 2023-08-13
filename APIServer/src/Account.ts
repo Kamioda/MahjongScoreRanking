@@ -25,7 +25,7 @@ export const HashPassword = RawPassword => {
         .digest('hex');
 };
 
-export class AccountManager {
+export default class AccountManager {
     Client: PrismaClient;
     constructor() {
         this.Client = new PrismaClient();

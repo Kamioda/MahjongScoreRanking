@@ -15,7 +15,7 @@ export interface AdditionalRecordInformations {
     [name: string]: number;
 }
 
-export class ScoreManager {
+export default class ScoreManager {
     #FilePath: string;
     constructor(ScoreDataFilePath: string) {
         this.#FilePath = ScoreDataFilePath;
