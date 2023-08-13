@@ -108,8 +108,8 @@ describe('Account Manager Test', function () {
             });
         });
     });
-    describe('create id', function() {
-        describe('use mock', function(){
+    describe('create id', function () {
+        describe('use mock', function () {
             const TestID = '50a16faf10b048798cc92ca73861d7ea';
             const AccountMgr = new AccountManagerForTest(new AccountManager());
             const TestAccount = {
@@ -125,13 +125,13 @@ describe('Account Manager Test', function () {
             after(function () {
                 AccountMgr.DeleteAllAccount();
             });
-            it('test', function() {
+            it('test', function () {
                 AccountMgr.AMI.createId().then(id => {
                     assert.notEqual(id, TestID);
                 });
             });
         });
-        describe('not use mock', function() {
+        describe('not use mock', function () {
             const AccountMgr = new AccountManagerForTest(new AccountManager());
             const TestAccount = {
                 id: 'kamioda_ampsprg',
@@ -149,7 +149,7 @@ describe('Account Manager Test', function () {
             after(function () {
                 AccountMgr.DeleteAllAccount();
             });
-            it('test', function() {
+            it('test', function () {
                 AccountMgr.AMI.createId().then(id => {
                     assert.notEqual(id, TestUserID);
                 });
@@ -178,10 +178,10 @@ describe('Account Manager Test', function () {
             });
         });
     });
-    describe('sign in', function() {
+    describe('sign in', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let AccountCount = 0;
-        before(function() {
+        before(function () {
             const stub = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(() => PrePasswordForTest);
             const Accounts = ReadMultiAccountFile();
             AccountCount = Accounts.users.length;
@@ -190,10 +190,10 @@ describe('Account Manager Test', function () {
             });
             if (stub && stub.restore) stub.restore();
         });
-        after(function() {
+        after(function () {
             AccountMgr.DeleteAllAccount();
         });
-        it('valid', function() {
+        it('valid', function () {
             AccountMgr.GetAllAccount().then(records => {
                 const Index = createRandom(0, AccountCount - 1);
                 AccountMgr.SignIn(records[Index].id, PrePasswordForTest)
@@ -205,7 +205,7 @@ describe('Account Manager Test', function () {
                     });
             });
         });
-        it('invalid', function() {
+        it('invalid', function () {
             AccountMgr.GetAllAccount().then(records => {
                 const Index = createRandom(0, AccountCount - 1);
                 AccountMgr.SignIn(records[Index].id, 'passwordfail01')
@@ -218,48 +218,48 @@ describe('Account Manager Test', function () {
             });
         });
     });
-    describe('delete user', function() {
+    describe('delete user', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let AccountCount = 0;
-        before(function() {
+        before(function () {
             const Accounts = ReadMultiAccountFile();
             AccountCount = Accounts.users.length;
             Accounts.users.forEach(i => {
                 AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
             });
         });
-        after(function() {
+        after(function () {
             AccountMgr.DeleteAllAccount();
         });
-        it('test', function() {
+        it('test', function () {
             AccountMgr.GetAllAccount().then(records => {
                 const Index = createRandom(0, AccountCount - 1);
                 const deleteTargetId = records[Index].sysid;
                 records.splice(Index, 1);
                 AccountMgr.DeleteUser(deleteTargetId)
-                .then(() => AccountMgr.GetAllAccount())
-                .then(recordsAfter => {
-                    for (let i = 0; i < records.length - 1; i++) {
-                        assert.deepEqual(recordsAfter[i], records[i]);
-                    }
-                });
+                    .then(() => AccountMgr.GetAllAccount())
+                    .then(recordsAfter => {
+                        for (let i = 0; i < records.length - 1; i++) {
+                            assert.deepEqual(recordsAfter[i], records[i]);
+                        }
+                    });
             });
         });
     });
-    describe('get account count', function() {
+    describe('get account count', function () {
         const AccountMgr = new AccountManagerForTest(new AccountManager());
         let CorrectAccountCount = 0;
-        before(function() {
+        before(function () {
             const Accounts = ReadMultiAccountFile();
             CorrectAccountCount = Accounts.users.length;
             Accounts.users.forEach(i => {
                 AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
             });
         });
-        after(function() {
+        after(function () {
             AccountMgr.DeleteAllAccount();
         });
-        it('test', function() {
+        it('test', function () {
             AccountMgr.GetAccountCount().then(count => {
                 assert.equal(count, CorrectAccountCount);
             });
