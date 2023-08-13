@@ -320,4 +320,31 @@ describe('Account Manager Test', function () {
             });
         });
     });
+    describe('change privilege', function () {
+        const TestID = 'b20046fe0ca7480292a0b27e1426f5e8';
+        const TestAccount = {
+            id: 'mizuki_otokoe',
+            name: '木下瑞希',
+            privilege: 1,
+        };
+        const AccountMgr = new AccountManagerForTest(new AccountManager());
+        before(function () {
+            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+        });
+        after(function () {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test', function () {
+            AccountMgr.ChangePrivilege(TestID, 0)
+                .then(() => AccountMgr.GetAccountInfo(TestID))
+                .then(record => {
+                    assert.equal(record.privilege, 0);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+    });
 });
