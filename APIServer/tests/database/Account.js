@@ -8,6 +8,11 @@ const ReadMultiAccountFile = () => {
     return JSON.parse(readFileSync('./testaccounts.json', 'utf-8'));
 };
 
+const createRandom = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+};
 
 class AccountManagerForTest {
     constructor(AccountManagerInstance) {
@@ -171,6 +176,46 @@ describe('Account Manager Test', function () {
         it('test', function () {
             AccountMgr.GetAccountInfo(TestID).then(i => {
                 assert.deepEqual(i, TestAccount);
+            });
+        });
+    });
+    describe('sign in', function() {
+        const AccountMgr = new AccountManagerForTest(new AccountManager());
+        let AccountCount = 0;
+        before(function() {
+            const stub = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(() => PrePasswordForTest);
+            const Accounts = ReadMultiAccountFile();
+            AccountCount = Accounts.users.length;
+            Accounts.users.forEach(i => {
+                AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
+            });
+            if (stub && stub.restore) stub.restore();
+        });
+        after(function() {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('valid', function() {
+            AccountMgr.GetAllAccount().then(records => {
+                const Index = createRandom(0, AccountCount - 1);
+                AccountMgr.SignIn(records[Index].id, PrePasswordForTest)
+                    .then(id => {
+                        assert.equal(id, records[Index].sysid);
+                    })
+                    .catch(() => {
+                        assert.fail();
+                    });
+            });
+        });
+        it('invalid', function() {
+            AccountMgr.GetAllAccount().then(records => {
+                const Index = createRandom(0, AccountCount - 1);
+                AccountMgr.SignIn(records[Index].id, 'passwordfail01')
+                    .then(() => {
+                        assert.fail();
+                    })
+                    .catch(() => {
+                        assert.ok();
+                    });
             });
         });
     });
