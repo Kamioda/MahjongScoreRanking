@@ -1,0 +1,7 @@
+package.json
+package-lock.json
+coverage/
+node_modules/
+src/resources/*
+*.md
+build/*
