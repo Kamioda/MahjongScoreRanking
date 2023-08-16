@@ -6,7 +6,7 @@ import { expect } from 'expect';
 import { readFileSync } from 'fs';
 
 const ReadMultiAccountFile = () => {
-    return JSON.parse(readFileSync('./testaccountson', 'utf-8'));
+    return JSON.parse(readFileSync('./testaccounts.json', 'utf-8'));
 };
 
 const createRandom = (min, max) => {
