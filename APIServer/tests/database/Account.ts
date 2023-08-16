@@ -1,5 +1,5 @@
 import { describe, it, before, after } from 'mocha';
-import AccountManager, { UserInformation } from '../../src/Account';
+import AccountManager, { HashPassword, UserInformation } from '../../src/Account';
 import assert from 'assert';
 import * as sinon from 'sinon';
 import { readFileSync } from 'fs';
@@ -93,7 +93,7 @@ class AccountManagerForTest {
                     ID: u.sysid,
                     UserID: u.id,
                     UserName: u.name,
-                    Password: '',
+                    Password: HashPassword(u.password),
                     AccountLevel: u.privilege,
                 },
             });
