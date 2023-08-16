@@ -214,7 +214,7 @@ describe('Account Manager Test', function () {
                         assert.fail();
                     })
                     .catch(() => {
-                        assert.ok();
+                        assert.ok(true);
                     });
             });
         });
@@ -290,14 +290,14 @@ describe('Account Manager Test', function () {
                     assert.equal(id, TestID);
                 })
                 .catch(() => {
-                    assert.ok();
+                    assert.ok(true);
                 });
             AccountMgr.SignIn(TestAccount, NewPassword)
                 .then(() => {
                     assert.fail();
                 })
                 .catch(() => {
-                    assert.ok();
+                    assert.ok(true);
                 });
             AccountMgr.ChangePassword(TestID, NewPassword).then(() => {
                 AccountMgr.SignIn(TestAccount, NewPassword)
@@ -305,14 +305,14 @@ describe('Account Manager Test', function () {
                         assert.equal(id, TestID);
                     })
                     .catch(() => {
-                        assert.ok();
+                        assert.ok(true);
                     });
                 AccountMgr.SignIn(TestAccount, PrePasswordForTest)
                     .then(() => {
                         assert.fail();
                     })
                     .catch(() => {
-                        assert.ok();
+                        assert.ok(true);
                     });
             });
         });
@@ -462,7 +462,7 @@ describe('Account Manager Test', function () {
                     assert.fail();
                 })
                 .catch(() => {
-                    assert.ok();
+                    assert.ok(true);
                 });
         });
     });
