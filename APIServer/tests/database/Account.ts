@@ -83,16 +83,15 @@ describe('Account Manager Test', function () {
         });
     });
     describe('add', function () {
-        let stubCreatePrePassword = null;
         before(function () {
-            stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(len => {
+            const stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(len => {
                 expect(len).toBeGreaterThan(1);
                 return PrePasswordForTest;
             });
+            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
         after(function () {
             AccountMgr.DeleteAllAccount();
-            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
         it('test/admin', function () {
             const expected = {
@@ -394,7 +393,7 @@ describe('Account Manager Test', function () {
         });
         it('test/no update', function () {
             AccountMgr.ChangeUserInfo(TestID, {})
-                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
                     assert.deepEqual(record, TestAccount);
                 })
@@ -404,7 +403,7 @@ describe('Account Manager Test', function () {
         });
         it('test/name update', function () {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.nameUpdate.arg)
-                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
                     assert.deepEqual(record, NewRecordInfo.nameUpdate.correct);
                 })
@@ -414,7 +413,7 @@ describe('Account Manager Test', function () {
         });
         it('test/id update', function () {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.idUpdate.arg)
-                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
                     assert.deepEqual(record, NewRecordInfo.idUpdate.correct);
                 })
@@ -424,7 +423,7 @@ describe('Account Manager Test', function () {
         });
         it('test/both update', function () {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.bothUpdate.arg)
-                .then(AccountMgr.GetAccountInfo(TestID))
+                .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
                     assert.deepEqual(record, NewRecordInfo.bothUpdate.correct);
                 })

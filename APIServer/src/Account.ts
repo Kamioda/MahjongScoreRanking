@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 export interface UserInformation {
     id: string | null;
     name: string | null;
+    privilege: number | null;
 }
 
 export interface NewAccountInformation {
