@@ -71,6 +71,11 @@ class AccountManagerForTest {
 describe('Account Manager Test', function () {
     const PrePasswordForTest = 'password01';
     const AccountMgr = new AccountManagerForTest(new AccountManager());
+    const DeleteAllAccountOnlyProcess = function (done) {
+        AccountMgr.DeleteAllAccount().then(() => {
+            done();
+        });
+    };
     describe('create pre password', function () {
         it('test/default', function () {
             const AccountMgrForCreatePrePassword = new AccountManager();
@@ -84,33 +89,47 @@ describe('Account Manager Test', function () {
     describe('add', function () {
         let stubCreatePrePassword: sinon.SinonStub<[], string> | null = null;
         before(function () {
-            stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(() => {
-                return PrePasswordForTest;
+            stubCreatePrePassword = sinon
+                .stub(AccountMgr.AMI, 'createPrePassword')
+                .callsFake((): string => PrePasswordForTest);
+        });
+        after(function (done) {
+            AccountMgr.DeleteAllAccount().finally(() => {
+                if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
+                done();
             });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
-        });
-        it('test/admin', async function (done) {
+        it('test/admin', function (done) {
             const expected = {
                 id: 'kamioda_ampsprg',
                 password: PrePasswordForTest,
             };
-            await AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0).then(data => {
-                assert.deepEqual(data, expected);
-                done();
-            });
+            AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0)
+                .then(data => {
+                    assert.deepEqual(data, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
-        it('test/user', async function (done) {
+        it('test/user', function (done) {
             const expected = {
                 id: 'ayaka_meigetsu',
                 password: PrePasswordForTest,
             };
-            await AccountMgr.AddNewAccount('ayaka_meigetsu', '明月彩香', 1).then(data => {
-                assert.deepEqual(data, expected);
-                done();
-            });
+            AccountMgr.AddNewAccount('ayaka_meigetsu', '明月彩香', 1)
+                .then(data => {
+                    assert.deepEqual(data, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
     });
     describe('create id', function () {
@@ -121,18 +140,29 @@ describe('Account Manager Test', function () {
                 name: '神御田',
                 privilege: 0,
             };
-            before(function () {
+            before(function (done) {
                 const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-                if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                    .catch((er: Error) => {
+                        console.error(er.message);
+                    })
+                    .finally(() => {
+                        if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                        done();
+                    });
             });
-            after(function () {
-                AccountMgr.DeleteAllAccount();
-            });
-            it('test', function () {
-                AccountMgr.AMI.createId().then(id => {
-                    assert.notEqual(id, TestID);
-                });
+            after(DeleteAllAccountOnlyProcess);
+            it('test', function (done) {
+                AccountMgr.AMI.createId()
+                    .then(id => {
+                        assert.notEqual(id, TestID);
+                    })
+                    .catch((er: Error) => {
+                        console.error(er.message);
+                    })
+                    .finally(() => {
+                        done();
+                    });
             });
         });
         describe('not use mock', function () {
@@ -142,19 +172,31 @@ describe('Account Manager Test', function () {
                 privilege: 0,
             };
             let TestUserID = '';
-            before(function () {
-                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-                AccountMgr.GetAllAccount().then(records => {
-                    TestUserID = records[0].sysid;
-                });
+            before(function (done) {
+                AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                    .then(() => AccountMgr.GetAllAccount())
+                    .then(records => {
+                        TestUserID = records[0].sysid;
+                    })
+                    .catch((er: Error) => {
+                        console.error(er.message);
+                    })
+                    .finally(() => {
+                        done();
+                    });
             });
-            after(function () {
-                AccountMgr.DeleteAllAccount();
-            });
-            it('test', function () {
-                AccountMgr.AMI.createId().then(id => {
-                    assert.notEqual(id, TestUserID);
-                });
+            after(DeleteAllAccountOnlyProcess);
+            it('test', function (done) {
+                AccountMgr.AMI.createId()
+                    .then(id => {
+                        assert.notEqual(id, TestUserID);
+                    })
+                    .catch((er: Error) => {
+                        console.error(er.message);
+                    })
+                    .finally(() => {
+                        done();
+                    });
             });
         });
     });
@@ -165,104 +207,147 @@ describe('Account Manager Test', function () {
             name: '飯島みらい',
             privilege: 1,
         };
-        before(function () {
+        before(function (done) {
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function () {
-            AccountMgr.GetAccountInfo(TestID).then(i => {
-                assert.deepEqual(i, TestAccount);
-            });
+        after(DeleteAllAccountOnlyProcess);
+        it('test', function (done) {
+            AccountMgr.GetAccountInfo(TestID)
+                .then(i => {
+                    assert.deepEqual(i, TestAccount);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
     });
     describe('sign in', function () {
         let AccountCount = 0;
-        before(function () {
+        before(function (done) {
             const stubCreatePrePassword = sinon
                 .stub(AccountMgr.AMI, 'createPrePassword')
                 .callsFake(() => PrePasswordForTest);
             const Accounts = ReadMultiAccountFile();
             AccountCount = Accounts.users.length;
-            Accounts.users.forEach(i => {
-                AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
-            });
-            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
+            const Promises = Accounts.users.map(i => AccountMgr.AddNewAccount(i.id, i.name, i.privilege));
+            Promise.all(Promises)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('valid', function () {
+        after(DeleteAllAccountOnlyProcess);
+        it('valid', function (done) {
             AccountMgr.GetAllAccount().then(records => {
                 const Index = createRandom(0, AccountCount - 1);
-                AccountMgr.SignIn(records[Index].id, PrePasswordForTest)
+                return AccountMgr.SignIn(records[Index].id, PrePasswordForTest)
                     .then(id => {
                         assert.equal(id, records[Index].sysid);
                     })
                     .catch(() => {
                         assert.fail();
+                    })
+                    .finally(() => {
+                        done();
                     });
             });
         });
-        it('invalid', function () {
+        it('invalid', function (done) {
             AccountMgr.GetAllAccount().then(records => {
                 const Index = createRandom(0, AccountCount - 1);
-                AccountMgr.SignIn(records[Index].id, 'passwordfail01')
+                return AccountMgr.SignIn(records[Index].id, 'passwordfail01')
                     .then(() => {
                         assert.fail();
                     })
                     .catch(() => {
                         assert.ok(true);
+                    })
+                    .finally(() => {
+                        done();
                     });
             });
         });
     });
     describe('delete user', function () {
         let AccountCount = 0;
-        before(function () {
+        before(function (done) {
             const Accounts = ReadMultiAccountFile();
             AccountCount = Accounts.users.length;
-            Accounts.users.forEach(i => {
-                AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
-            });
+            const Promises = Accounts.users.map(i => AccountMgr.AddNewAccount(i.id, i.name, i.privilege));
+            Promise.all(Promises)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function () {
-            AccountMgr.GetAllAccount().then(records => {
-                const Index = createRandom(0, AccountCount - 1);
-                const deleteTargetId = records[Index].sysid;
-                records.splice(Index, 1);
-                AccountMgr.DeleteUser(deleteTargetId)
-                    .then(() => AccountMgr.GetAllAccount())
-                    .then(recordsAfter => {
-                        for (let i = 0; i < records.length - 1; i++) {
-                            assert.deepEqual(recordsAfter[i], records[i]);
-                        }
-                    });
-            });
+        after(DeleteAllAccountOnlyProcess);
+        it('test', function (done) {
+            AccountMgr.GetAllAccount()
+                .then(records => {
+                    const Index = createRandom(0, AccountCount - 1);
+                    const deleteTargetId = records[Index].sysid;
+                    records.splice(Index, 1);
+                    return AccountMgr.DeleteUser(deleteTargetId)
+                        .then(() => AccountMgr.GetAllAccount())
+                        .then(recordsAfter => {
+                            for (let i = 0; i < records.length - 1; i++) {
+                                assert.deepEqual(recordsAfter[i], records[i]);
+                            }
+                        })
+                        .catch((er: Error) => {
+                            console.error(er.message);
+                        });
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
     });
     describe('get account count', function () {
         let CorrectAccountCount = 0;
-        before(function () {
+        before(function (done) {
             const Accounts = ReadMultiAccountFile();
             CorrectAccountCount = Accounts.users.length;
-            Accounts.users.forEach(i => {
-                AccountMgr.AddNewAccount(i.id, i.name, i.privilege);
-            });
+            const Promises = Accounts.users.map(i => AccountMgr.AddNewAccount(i.id, i.name, i.privilege));
+            Promise.all(Promises)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function () {
-            AccountMgr.GetAccountCount().then(count => {
-                assert.equal(count, CorrectAccountCount);
-            });
+        after(DeleteAllAccountOnlyProcess);
+        it('test', function (done) {
+            AccountMgr.GetAccountCount()
+                .then(count => {
+                    assert.equal(count, CorrectAccountCount);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    done();
+                });
         });
     });
     describe('change password', function () {
@@ -273,48 +358,60 @@ describe('Account Manager Test', function () {
         };
         const TestID = '50a16faf10b048798cc92ca73861d7ea';
         const NewPassword = 'passwordnew001';
-        before(function () {
+        before(function (done) {
             const stubCreatePrePassword = sinon
                 .stub(AccountMgr.AMI, 'createPrePassword')
                 .callsFake(() => PrePasswordForTest);
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
+                    if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function () {
-            AccountMgr.SignIn(TestAccount, PrePasswordForTest)
+        after(DeleteAllAccountOnlyProcess);
+        it('test', function (done) {
+            const SignInBeforeChangePassword_Success = AccountMgr.SignIn(TestAccount, PrePasswordForTest)
                 .then(id => {
                     assert.equal(id, TestID);
                 })
                 .catch(() => {
                     assert.ok(true);
                 });
-            AccountMgr.SignIn(TestAccount, NewPassword)
+            const SignInBeforeChangePassword_Fail = AccountMgr.SignIn(TestAccount, NewPassword)
                 .then(() => {
                     assert.fail();
                 })
                 .catch(() => {
                     assert.ok(true);
                 });
-            AccountMgr.ChangePassword(TestID, NewPassword).then(() => {
-                AccountMgr.SignIn(TestAccount, NewPassword)
+            const Promise_ChangePassword = AccountMgr.ChangePassword(TestID, NewPassword).then(() => {
+                const SuccessSignIn = AccountMgr.SignIn(TestAccount, NewPassword)
                     .then(id => {
                         assert.equal(id, TestID);
                     })
                     .catch(() => {
                         assert.ok(true);
                     });
-                AccountMgr.SignIn(TestAccount, PrePasswordForTest)
+                const FailedSignIn = AccountMgr.SignIn(TestAccount, PrePasswordForTest)
                     .then(() => {
                         assert.fail();
                     })
                     .catch(() => {
                         assert.ok(true);
                     });
+                return Promise.all([SuccessSignIn, FailedSignIn]);
+            });
+            Promise.all([
+                SignInBeforeChangePassword_Success,
+                SignInBeforeChangePassword_Fail,
+                Promise_ChangePassword,
+            ]).then(() => {
+                done();
             });
         });
     });
@@ -325,15 +422,19 @@ describe('Account Manager Test', function () {
             name: '木下瑞希',
             privilege: 1,
         };
-        before(function () {
+        before(function (done) {
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test', function () {
+        after(DeleteAllAccountOnlyProcess);
+        it('test', function (done) {
             AccountMgr.ChangePrivilege(TestID, 0)
                 .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
@@ -341,6 +442,9 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
     });
@@ -384,15 +488,19 @@ describe('Account Manager Test', function () {
                 },
             },
         };
-        before(function () {
+        before(function (done) {
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test/no update', function () {
+        after(DeleteAllAccountOnlyProcess);
+        it('test/no update', function (done) {
             AccountMgr.ChangeUserInfo(TestID, {})
                 .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
@@ -400,9 +508,12 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
-        it('test/name update', function () {
+        it('test/name update', function (done) {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.nameUpdate.arg)
                 .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
@@ -410,9 +521,12 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
-        it('test/id update', function () {
+        it('test/id update', function (done) {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.idUpdate.arg)
                 .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
@@ -420,9 +534,12 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
-        it('test/both update', function () {
+        it('test/both update', function (done) {
             AccountMgr.ChangeUserInfo(TestID, NewRecordInfo.bothUpdate.arg)
                 .then(() => AccountMgr.GetAccountInfo(TestID))
                 .then(record => {
@@ -430,6 +547,9 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
     });
@@ -440,30 +560,40 @@ describe('Account Manager Test', function () {
             name: '西園寺奏',
             privilege: 1,
         };
-        before(function () {
+        before(function (done) {
             const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
-            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
-            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege)
+                .catch((er: Error) => {
+                    console.error(er.message);
+                })
+                .finally(() => {
+                    if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+                    done();
+                });
         });
-        after(function () {
-            AccountMgr.DeleteAllAccount();
-        });
-        it('test/valid', function () {
+        after(DeleteAllAccountOnlyProcess);
+        it('test/valid', function (done) {
             AccountMgr.GetSystemID(TestAccount.id)
                 .then(result => {
                     assert.equal(result, TestID);
                 })
                 .catch(() => {
                     assert.fail();
+                })
+                .finally(() => {
+                    done();
                 });
         });
-        it('test/invalid', function () {
+        it('test/invalid', function (done) {
             AccountMgr.GetSystemID('aoi_otokoe')
                 .then(() => {
                     assert.fail();
                 })
                 .catch(() => {
                     assert.ok(true);
+                })
+                .finally(() => {
+                    done();
                 });
         });
     });
