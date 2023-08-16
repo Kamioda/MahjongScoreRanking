@@ -7,7 +7,7 @@ interface RecordInformation {
     score: number;
 }
 
-interface RecordInformations {
+export interface RecordInformations {
     [name: string]: RecordInformation[];
 }
 
