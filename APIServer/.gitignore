@@ -1,3 +1,4 @@
 # TypeScript build data
 
 features/*.js*
+features/converter/*.js*
