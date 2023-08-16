@@ -17,9 +17,6 @@ const createRandom = (min, max) => {
 class AccountManagerForTest {
     AMI: AccountManager;
     constructor(AccountManagerInstance) {
-        /**
-         * @type {AccountManager}
-         */
         this.AMI = AccountManagerInstance;
     }
     async AddNewAccount(PreID, Name, Level) {
