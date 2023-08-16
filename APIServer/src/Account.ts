@@ -153,3 +153,6 @@ export default class AccountManager {
         return await this.Client.accounts.count();
     }
 }
+
+const PrePasswordLength = process.env.MAHJONG_PRE_PASSWORD_LEN == null ? 8 : parseInt(process.env.MAHJONG_PRE_PASSWORD_LEN);
+export const Account = new AccountManager(PrePasswordLength);
