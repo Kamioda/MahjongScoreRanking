@@ -2,7 +2,6 @@ import { describe, it, before, after } from 'mocha';
 import AccountManager from '../../src/Account';
 import assert from 'assert';
 import * as sinon from 'sinon';
-import { expect } from 'expect';
 import { readFileSync } from 'fs';
 
 const ReadMultiAccountFile = () => {
@@ -83,32 +82,34 @@ describe('Account Manager Test', function () {
         });
     });
     describe('add', function () {
+        let stubCreatePrePassword: sinon.SinonStub<[], string> | null = null;
         before(function () {
-            const stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(len => {
-                expect(len).toBeGreaterThan(1);
+            stubCreatePrePassword = sinon.stub(AccountMgr.AMI, 'createPrePassword').callsFake(() => {
                 return PrePasswordForTest;
             });
-            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
         after(function () {
             AccountMgr.DeleteAllAccount();
+            if (stubCreatePrePassword && stubCreatePrePassword.restore) stubCreatePrePassword.restore();
         });
-        it('test/admin', function () {
+        it('test/admin', async function (done) {
             const expected = {
                 id: 'kamioda_ampsprg',
                 password: PrePasswordForTest,
             };
-            AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0).then(data => {
+            await AccountMgr.AddNewAccount('kamioda_ampsprg', '神御田', 0).then(data => {
                 assert.deepEqual(data, expected);
+                done();
             });
         });
-        it('test/user', function () {
+        it('test/user', async function (done) {
             const expected = {
                 id: 'ayaka_meigetsu',
                 password: PrePasswordForTest,
             };
-            AccountMgr.AddNewAccount('ayaka_meigetsu', '明月彩香', 1).then(data => {
+            await AccountMgr.AddNewAccount('ayaka_meigetsu', '明月彩香', 1).then(data => {
                 assert.deepEqual(data, expected);
+                done();
             });
         });
     });
