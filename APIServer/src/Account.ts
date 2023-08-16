@@ -119,19 +119,21 @@ export default class AccountManager {
             });
     }
     async GetSystemID(UserID: string): Promise<string> {
-        return await this.Client.accounts.findMany({
-            select: {
-                ID: true,
-                UserID: true
-            },
-            where: {
-                UserID: UserID
-            }
-        }).then(results => {
-            if (results == null || results.length !== 1 || results[0].UserID !== UserID)
-                throw new Error('Failed to get system id');
-            return results[0].ID;
-        });
+        return await this.Client.accounts
+            .findMany({
+                select: {
+                    ID: true,
+                    UserID: true,
+                },
+                where: {
+                    UserID: UserID,
+                },
+            })
+            .then(results => {
+                if (results == null || results.length !== 1 || results[0].UserID !== UserID)
+                    throw new Error('Failed to get system id');
+                return results[0].ID;
+            });
     }
     async SignIn(ID, Password): Promise<string> {
         return await this.Client.accounts
@@ -169,5 +171,6 @@ export default class AccountManager {
     }
 }
 
-const PrePasswordLength = process.env.MAHJONG_PRE_PASSWORD_LEN == null ? 8 : parseInt(process.env.MAHJONG_PRE_PASSWORD_LEN);
+const PrePasswordLength =
+    process.env.MAHJONG_PRE_PASSWORD_LEN == null ? 8 : parseInt(process.env.MAHJONG_PRE_PASSWORD_LEN);
 export const Account = new AccountManager(PrePasswordLength);

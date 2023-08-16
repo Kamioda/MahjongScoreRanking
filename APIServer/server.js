@@ -19,11 +19,11 @@ export const server = () => {
     app.post('/api/signin', express.json(), async (req, res) => {
         if (!isValid(signinSpec, req.body)) return res.sendStatus(400);
         await AccountMgr.SignIn(req.body.id, req.body.password)
-        .then(() => {
-            res.sendStatus(200);
-        })
-        .catch(() => {
-            res.sendStatus(401);
-        });
+            .then(() => {
+                res.sendStatus(200);
+            })
+            .catch(() => {
+                res.sendStatus(401);
+            });
     });
 };
