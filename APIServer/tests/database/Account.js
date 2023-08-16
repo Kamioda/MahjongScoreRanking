@@ -36,6 +36,9 @@ class AccountManagerForTest {
     async GetAccountInfo(ID) {
         return await this.AMI.GetAccountInfo(ID);
     }
+    async GetSystemID(UserID) {
+        return await this.AMI.GetSystemID(UserID);
+    }
     async SignIn(ID, Password) {
         return await this.AMI.SignIn(ID, Password);
     }
@@ -425,6 +428,40 @@ describe('Account Manager Test', function () {
                 })
                 .catch(() => {
                     assert.fail();
+                });
+        });
+    });
+    describe('get system id', function () {
+        const TestID = '310f4f740289438ca73c46772af29cb2';
+        const TestAccount = {
+            id: 'otokoe_s_kanade',
+            name: '西園寺奏',
+            privilege: 1,
+        };
+        before(function () {
+            const stubCreateId = sinon.stub(AccountMgr.AMI, 'createId').callsFake(() => Promise.resolve(TestID));
+            AccountMgr.AddNewAccount(TestAccount.id, TestAccount.name, TestAccount.privilege);
+            if (stubCreateId && stubCreateId.restore) stubCreateId.restore();
+        });
+        after(function () {
+            AccountMgr.DeleteAllAccount();
+        });
+        it('test/valid', function () {
+            AccountMgr.GetSystemID(TestAccount.id)
+                .then(result => {
+                    assert.equal(result, TestID);
+                })
+                .catch(() => {
+                    assert.fail();
+                });
+        });
+        it('test/invalid', function () {
+            AccountMgr.GetSystemID('aoi_otokoe')
+                .then(() => {
+                    assert.fail();
+                })
+                .catch(() => {
+                    assert.ok();
                 });
         });
     });
