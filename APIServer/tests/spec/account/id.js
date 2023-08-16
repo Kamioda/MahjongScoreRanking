@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { idSpec } from '../../../features/specs/account/id.js';
 import assert from 'assert';

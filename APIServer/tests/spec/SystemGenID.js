@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { SystemGenIDSpec } from '../../features/specs/SystemGenID.js';
 import assert from 'assert';

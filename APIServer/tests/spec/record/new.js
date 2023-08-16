@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { newRecordSpec } from '../../../features/specs/record/new.js';
 import assert from 'assert';

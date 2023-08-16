@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import assert from 'assert';
 import { signinSpec } from '../../../features/specs/account/signin.js';

@@ -1,3 +1,4 @@
+import { describe, it, before, after } from 'mocha';
 import ScoreManager from '../../features/ScoreManager.js';
 import assert from 'assert';
 import { writeFileSync, existsSync, unlinkSync } from 'fs';

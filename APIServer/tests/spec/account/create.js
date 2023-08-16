@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { createAccountSpec } from '../../../features/specs/account/create.js';
 import assert from 'assert';

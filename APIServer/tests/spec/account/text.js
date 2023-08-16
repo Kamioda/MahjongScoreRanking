@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { textSpec } from '../../../features/specs/account/text.js';
 import assert from 'assert';

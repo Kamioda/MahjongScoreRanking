@@ -1,3 +1,4 @@
+import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
 import { privilegeSpec } from '../../../features/specs/account/privilege.js';
 import assert from 'assert';
