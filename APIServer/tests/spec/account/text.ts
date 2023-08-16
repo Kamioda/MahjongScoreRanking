@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
-import { textSpec } from '../../../features/specs/account/text.js';
+import { textSpec } from '../../../src/specs/account/text';
 import assert from 'assert';
 const { isValid } = pkg;
 

@@ -1,6 +1,6 @@
 import pkg from '@json-spec/core';
-import { idSpec } from './id.js';
-import { textSpec } from './text.js';
+import { idSpec } from './id';
+import { textSpec } from './text';
 const { object } = pkg;
 
 export const signinSpec = object({

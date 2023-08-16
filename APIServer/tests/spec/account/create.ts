@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import pkg from '@json-spec/core';
-import { createAccountSpec } from '../../../features/specs/account/create.js';
+import { createAccountSpec } from '../../../src/specs/account/create';
 import assert from 'assert';
 const { isValid } = pkg;
 

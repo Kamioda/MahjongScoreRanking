@@ -1,12 +1,12 @@
 import { describe, it, before, after } from 'mocha';
-import AccountManager from '../../features/Account.js';
+import AccountManager from '../../src/Account';
 import assert from 'assert';
 import * as sinon from 'sinon';
 import { expect } from 'expect';
 import { readFileSync } from 'fs';
 
 const ReadMultiAccountFile = () => {
-    return JSON.parse(readFileSync('./testaccounts.json', 'utf-8'));
+    return JSON.parse(readFileSync('./testaccountson', 'utf-8'));
 };
 
 const createRandom = (min, max) => {
@@ -16,6 +16,7 @@ const createRandom = (min, max) => {
 };
 
 class AccountManagerForTest {
+    AMI: AccountManager;
     constructor(AccountManagerInstance) {
         /**
          * @type {AccountManager}

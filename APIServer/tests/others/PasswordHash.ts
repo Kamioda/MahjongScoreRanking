@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import { HashPassword } from '../../features/Account.js';
+import { HashPassword } from '../../src/Account';
 import assert from 'assert';
 
 describe('Hash password test', function () {

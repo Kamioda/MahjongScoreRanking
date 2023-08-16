@@ -1,7 +1,7 @@
 import pkg from '@json-spec/core';
-import { idSpec } from './id.js';
-import { textSpec } from './text.js';
-import { privilegeSpec } from './privilege.js';
+import { idSpec } from './id';
+import { textSpec } from './text';
+import { privilegeSpec } from './privilege';
 const { object } = pkg;
 
 export const createAccountSpec = object({
