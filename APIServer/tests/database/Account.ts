@@ -336,7 +336,12 @@ describe('Account Manager Test', function () {
                 SignInBeforeChangePassword_Success,
                 SignInBeforeChangePassword_Fail,
                 Promise_ChangePassword,
-            ]).then(() => {
+            ])
+            .catch((er: Error) => {
+                console.log(er.message);
+                assert.fail();
+            })
+            .finally(() => {
                 done();
             });
         });
