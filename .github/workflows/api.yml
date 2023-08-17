@@ -20,6 +20,8 @@ jobs:
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
+    env:
+      DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 20.x

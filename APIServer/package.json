@@ -16,10 +16,10 @@
     "start": "node ./server.js",
     "test:spec": "ts-mocha -p ./tsconfig.json ./tests/spec/**/*.ts",
     "test:others": "ts-mocha -p ./tsconfig.json ./tests/others/**/*.ts",
-    "test:database": "dotenv -e .env -- ts-mocha -p ./tsconfig.json ./tests/database/*.ts",
-    "test": "dotenv -e .env -- ts-mocha -p ./tsconfig.json ./tests/**/*.ts",
+    "test:database": "ts-mocha -p ./tsconfig.json ./tests/database/*.ts",
+    "test": "ts-mocha -p ./tsconfig.json ./tests/**/*.ts",
     "init:test": "docker-compose up -d",
-    "migrate:test": "dotenv -e .env -- npx prisma migrate dev",
+    "migrate:test": "npx prisma migrate dev",
     "wait:test": "node ./scripts/wait.js",
     "build": "tsc"
   },
