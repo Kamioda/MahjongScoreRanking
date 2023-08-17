@@ -1,5 +1,10 @@
 name: build
 on: [push]
+
+defaults:
+  run:
+    working-directory: ./APIServer
+
 jobs:
   test_api:
     name: api test
@@ -11,7 +16,6 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-          scan: "./APIServer"
       - run: 
           npm ci
           npm run init:test
