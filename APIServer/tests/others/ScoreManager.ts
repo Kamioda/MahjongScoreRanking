@@ -34,7 +34,7 @@ describe('ScoreManager Test', function () {
         it('test', function () {
             const clock = sinon.useFakeTimers(testDate);
             const ScoreMgr = new ScoreManager(RecordFile);
-            assert.equal(ScoreMgr.getDate(), testDateStr);
+            assert.strictEqual(ScoreMgr.getDate(), testDateStr);
             clock.restore();
         });
     });
@@ -48,14 +48,14 @@ describe('ScoreManager Test', function () {
         it('test', function () {
             const ScoreMgr = new ScoreManager(RecordFile);
             const Result = ScoreMgr.read();
-            assert.deepEqual(Result, TestUseRecordDataBase);
+            assert.deepStrictEqual(Result, TestUseRecordDataBase);
         });
     });
     describe('read/file not exist', function () {
         it('test', function () {
             const ScoreMgr = new ScoreManager(RecordFile);
             const Result = ScoreMgr.read();
-            assert.deepEqual(Result, {});
+            assert.deepStrictEqual(Result, {});
         });
     });
     describe('create ID', function () {
@@ -63,13 +63,13 @@ describe('ScoreManager Test', function () {
             const ScoreMgr = new ScoreManager(RecordFile);
             const ID = ScoreMgr.createId(TestUseRecordDataBase);
             TestUseRecordDataBase.kamioda_ampsprg.forEach(i => {
-                assert.notEqual(ID, i.id);
+                assert.notStrictEqual(ID, i.id);
             });
             TestUseRecordDataBase.ayaka_meigetsu.forEach(i => {
-                assert.notEqual(ID, i.id);
+                assert.notStrictEqual(ID, i.id);
             });
             TestUseRecordDataBase.mirai_amairo.forEach(i => {
-                assert.notEqual(ID, i.id);
+                assert.notStrictEqual(ID, i.id);
             });
         });
     });
@@ -109,7 +109,7 @@ describe('ScoreManager Test', function () {
                 return 'b305e055212d45a08e0d4b0491543f5f';
             });
             ScoreMgr.add({ kamioda_ampsprg: 1000, ayaka_meigetsu: 104000, amairo_miyuki: 0 });
-            assert.deepEqual(ScoreMgr.read(), TestAddRecordData);
+            assert.deepStrictEqual(ScoreMgr.read(), TestAddRecordData);
             clock.restore();
         });
         after(function () {
@@ -171,7 +171,7 @@ describe('ScoreManager Test', function () {
         it('test', function () {
             const ScoreMgr = new ScoreManager(RecordFile);
             ScoreMgr.remove('72c9f897ece34c46852ea1882cba8790');
-            assert.deepEqual(ScoreMgr.read(), TestAfterRemoveRecordData);
+            assert.deepStrictEqual(ScoreMgr.read(), TestAfterRemoveRecordData);
         });
     });
 });
