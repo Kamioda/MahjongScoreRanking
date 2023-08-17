@@ -141,6 +141,7 @@ export default class AccountManager {
             .findMany({
                 select: {
                     ID: true,
+                    UserID: true,
                     Password: true,
                 },
                 where: {
@@ -148,7 +149,7 @@ export default class AccountManager {
                 },
             })
             .then(result => {
-                if (result.length !== 1 || result[0].Password === HashPassword(Password))
+                if (result.length !== 1 || result[0].UserID !== ID || result[0].Password !== HashPassword(Password))
                     throw new Error('IDまたはパスワードが違います');
                 return result[0].ID;
             });
