@@ -13,12 +13,14 @@ jobs:
           node-version: '20'
           cache: npm
       - run: 
+          pwd
           npm ci
           npm run init:test
           npm run migrate:test
         working-directory: "./APIServer"
       - name: Execute test
         run: 
+          pwd
           npm run init:test
           npm run migrate:test
           npm run ci
