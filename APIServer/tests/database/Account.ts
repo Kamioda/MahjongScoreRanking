@@ -314,7 +314,7 @@ describe('Account Manager Test', function () {
                 .catch(() => {
                     assert.ok(true);
                 });
-            const Promise_ChangePassword = AccountMgr.ChangePassword(TargetAccount.id, NewPassword).then(() => {
+            const Promise_ChangePassword = AccountMgr.ChangePassword(TargetAccount.sysid, NewPassword).then(() => {
                 const SuccessSignIn = AccountMgr.SignIn(TargetAccount.id, NewPassword)
                     .then(id => {
                         assert.strictEqual(id, TargetAccount.sysid);
