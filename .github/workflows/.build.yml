@@ -11,9 +11,15 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-      - run: npm ci
+      - run: 
+          npm run init:test
+          npm run migrate:test
+          npm ci
       - name: Execute test
-        run: npm run ci
+        run: 
+          npm run init:test
+          npm run migrate:test
+          npm run ci
       - name: Publish coverage
         uses: coverallsapp/github-action@master
         with:
