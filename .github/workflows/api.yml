@@ -5,6 +5,9 @@ jobs:
   test_api:
     name: api test
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: "./APIServer"
     services:
       db:
         image: mysql:latest
@@ -21,7 +24,7 @@ jobs:
             --health-timeout 5s
             --health-retries 5
         volumes:
-          - ./APIServer/docker/db:/initdb.d
+          - ./docker/db:/initdb.d
     env:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
@@ -35,12 +38,10 @@ jobs:
       - run: |
           npm run migrate:test
           npm ci
-        working-directory: "./APIServer"
       - name: Execute test
         run: |
           npm run migrate:test
           npm run ci
-        working-directory: "./APIServer"
       - name: Publish coverage
         uses: coverallsapp/github-action@master
         with:
