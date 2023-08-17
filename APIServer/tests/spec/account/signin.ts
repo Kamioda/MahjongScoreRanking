@@ -71,18 +71,18 @@ const ngPattern = {
 describe('SignIn Request Body Spec', function () {
     it('valid', function () {
         correctPattern.forEach(i => {
-            assert.equal(isValid(signinSpec, i), true);
+            assert.strictEqual(isValid(signinSpec, i), true);
         });
     });
     describe('invalid', function () {
         it('id', function () {
             ngPattern.idError.forEach(i => {
-                assert.equal(isValid(signinSpec, i), false);
+                assert.strictEqual(isValid(signinSpec, i), false);
             });
         });
         it('password', function () {
             ngPattern.passwordError.forEach(i => {
-                assert.equal(isValid(signinSpec, i), false);
+                assert.strictEqual(isValid(signinSpec, i), false);
             });
         });
     });

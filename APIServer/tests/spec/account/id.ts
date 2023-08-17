@@ -6,14 +6,14 @@ const { isValid } = pkg;
 
 describe('UserID Test', function () {
     it('valid', function () {
-        assert.equal(isValid(idSpec, 'kamioda'), true);
-        assert.equal(isValid(idSpec, 'KAMIODA'), true);
-        assert.equal(isValid(idSpec, 'kamioda_ampsprg'), true);
-        assert.equal(isValid(idSpec, 'KamiodaAmpsprg'), true);
-        assert.equal(isValid(idSpec, 'Kamioda_Ampsprg'), true);
-        assert.equal(isValid(idSpec, 'KAMIODA_AMPSPRG'), true);
+        assert.strictEqual(isValid(idSpec, 'kamioda'), true);
+        assert.strictEqual(isValid(idSpec, 'KAMIODA'), true);
+        assert.strictEqual(isValid(idSpec, 'kamioda_ampsprg'), true);
+        assert.strictEqual(isValid(idSpec, 'KamiodaAmpsprg'), true);
+        assert.strictEqual(isValid(idSpec, 'Kamioda_Ampsprg'), true);
+        assert.strictEqual(isValid(idSpec, 'KAMIODA_AMPSPRG'), true);
     });
     it('invalid', function () {
-        assert.equal(isValid(idSpec, 'kamioda-ampsprg'), false);
+        assert.strictEqual(isValid(idSpec, 'kamioda-ampsprg'), false);
     });
 });

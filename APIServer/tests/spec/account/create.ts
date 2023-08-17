@@ -83,22 +83,22 @@ const ngPattern = {
 
 describe('Create Account Request Body Spec', function () {
     it('valid', function () {
-        assert.equal(isValid(createAccountSpec, correctPattern), true);
+        assert.strictEqual(isValid(createAccountSpec, correctPattern), true);
     });
     describe('invalid', function () {
         it('id', function () {
             ngPattern.idError.forEach(i => {
-                assert.equal(isValid(createAccountSpec, i), false);
+                assert.strictEqual(isValid(createAccountSpec, i), false);
             });
         });
         it('name', function () {
             ngPattern.nameError.forEach(i => {
-                assert.equal(isValid(createAccountSpec, i), false);
+                assert.strictEqual(isValid(createAccountSpec, i), false);
             });
         });
         it('privilege', function () {
             ngPattern.privilegeError.forEach(i => {
-                assert.equal(isValid(createAccountSpec, i), false);
+                assert.strictEqual(isValid(createAccountSpec, i), false);
             });
         });
     });

@@ -85,8 +85,8 @@ export default class AccountManager {
     }
     async ChangeUserInfo(ID: string, NewRecord: NewUserInformation): Promise<UserInformation | void> {
         const UpdateInfo = {};
-        if (NewRecord.id !== null) UpdateInfo['UserID'] = NewRecord.id;
-        if (NewRecord.name !== null) UpdateInfo['UserName'] = NewRecord.name;
+        if (NewRecord.id !== null && NewRecord.id !== undefined && NewRecord.id.length > 0) UpdateInfo['UserID'] = NewRecord.id;
+        if (NewRecord.name !== null && NewRecord.name !== undefined && NewRecord.name.length > 0) UpdateInfo['UserName'] = NewRecord.name;
         if (Object.keys(UpdateInfo).length === 0) return;
         return await this.Client.accounts
             .update({

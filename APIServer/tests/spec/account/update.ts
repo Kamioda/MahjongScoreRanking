@@ -76,24 +76,24 @@ const ngPattern = {
 describe('Update Account Request Body Spec', function () {
     it('valid', function () {
         correctPattern.forEach(i => {
-            assert.equal(isValid(updateAccountSpec, i), true);
+            assert.strictEqual(isValid(updateAccountSpec, i), true);
         });
     });
     describe('invalid', function () {
         it('id', function () {
             ngPattern.idError.forEach(i => {
-                assert.equal(isValid(updateAccountSpec, i), false);
+                assert.strictEqual(isValid(updateAccountSpec, i), false);
             });
         });
         it('name', function () {
             ngPattern.nameError.forEach(i => {
-                assert.equal(isValid(updateAccountSpec, i), false);
+                assert.strictEqual(isValid(updateAccountSpec, i), false);
             });
         });
         it('null or empty', function () {
-            assert.equal(isValid(updateAccountSpec, {}), false);
-            assert.equal(isValid(updateAccountSpec, null), false);
-            assert.equal(isValid(updateAccountSpec, undefined), false);
+            assert.strictEqual(isValid(updateAccountSpec, {}), false);
+            assert.strictEqual(isValid(updateAccountSpec, null), false);
+            assert.strictEqual(isValid(updateAccountSpec, undefined), false);
         });
     });
 });

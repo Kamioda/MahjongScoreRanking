@@ -46,24 +46,24 @@ const ngPattern = {
 describe('New Record Add Request Body', function () {
     it('valid', function () {
         correctPattern.forEach(i => {
-            assert.equal(isValid(newRecordSpec, i), true);
+            assert.strictEqual(isValid(newRecordSpec, i), true);
         });
     });
     describe('invalid', function () {
         it('over player', function () {
-            assert.equal(isValid(newRecordSpec, ngPattern.overPlayer), false);
+            assert.strictEqual(isValid(newRecordSpec, ngPattern.overPlayer), false);
         });
         it('no friend', function () {
-            assert.equal(isValid(newRecordSpec, ngPattern.noFriend), false);
+            assert.strictEqual(isValid(newRecordSpec, ngPattern.noFriend), false);
         });
         it('empty', function () {
-            assert.equal(isValid(newRecordSpec, ngPattern.empty), false);
+            assert.strictEqual(isValid(newRecordSpec, ngPattern.empty), false);
         });
         it('not object', function () {
-            assert.equal(isValid(newRecordSpec, ngPattern.notObject), false);
+            assert.strictEqual(isValid(newRecordSpec, ngPattern.notObject), false);
         });
         it('invalid id', function () {
-            assert.equal(isValid(newRecordSpec, ngPattern.invalidId), false);
+            assert.strictEqual(isValid(newRecordSpec, ngPattern.invalidId), false);
         });
     });
 });
