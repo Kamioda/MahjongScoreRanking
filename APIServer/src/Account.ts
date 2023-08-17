@@ -161,7 +161,7 @@ export default class AccountManager {
             });
     }
     async DeleteUser(ID: string) {
-        await this.Client.accounts.delete({
+        return await this.Client.accounts.delete({
             where: {
                 ID: ID,
             },
