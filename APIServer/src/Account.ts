@@ -3,6 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { generate as createRandomString } from 'randomstring';
 import * as crypto from 'crypto';
 
+export interface NewUserInformation {
+    id: string | undefined | null;
+    name: string | undefined | null;
+}
+
 export interface UserInformation {
     id: string;
     name: string;
@@ -77,16 +82,23 @@ export default class AccountManager {
         })
         .then(result => result.Password === HashedPassword);
     }
-    async ChangeUserInfo(ID: string, NewRecord: UserInformation) {
+    async ChangeUserInfo(ID: string, NewRecord: NewUserInformation): Promise<UserInformation | void> {
         const UpdateInfo = {};
         if (NewRecord.id !== null) UpdateInfo['UserID'] = NewRecord.id;
         if (NewRecord.name !== null) UpdateInfo['UserName'] = NewRecord.name;
         if (Object.keys(UpdateInfo).length === 0) return;
-        await this.Client.accounts.update({
+        return await this.Client.accounts.update({
             data: UpdateInfo,
             where: {
                 ID: ID,
             },
+        })
+        .then(newRecord => {
+            return {
+                id: newRecord.UserID,
+                name: newRecord.UserName,
+                privilege: newRecord.AccountLevel
+            }
         });
     }
     async ChangePrivilege(SystemID: string, NewPriv: number) {
