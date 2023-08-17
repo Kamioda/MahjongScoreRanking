@@ -31,6 +31,13 @@ export const HashPassword = RawPassword => {
         .digest('hex');
 };
 
+const AllWhiteSpaceReg = /^[\s]{1,}$/;
+
+export const IsNullOrWhiteSpace = (Val: string | null | undefined): boolean => {
+    if (Val == null) return true;
+    return Val.length === 0 || AllWhiteSpaceReg.test(Val);
+};
+
 export default class AccountManager {
     Client: PrismaClient;
     PrePasswordLength: number;
@@ -85,8 +92,8 @@ export default class AccountManager {
     }
     async ChangeUserInfo(ID: string, NewRecord: NewUserInformation): Promise<UserInformation | void> {
         const UpdateInfo = {};
-        if (NewRecord.id !== null && NewRecord.id !== undefined && NewRecord.id.length > 0) UpdateInfo['UserID'] = NewRecord.id;
-        if (NewRecord.name !== null && NewRecord.name !== undefined && NewRecord.name.length > 0) UpdateInfo['UserName'] = NewRecord.name;
+        if (!IsNullOrWhiteSpace(NewRecord.id)) UpdateInfo['UserID'] = NewRecord.id;
+        if (!IsNullOrWhiteSpace(NewRecord.name)) UpdateInfo['UserName'] = NewRecord.name;
         if (Object.keys(UpdateInfo).length === 0) return;
         return await this.Client.accounts
             .update({
