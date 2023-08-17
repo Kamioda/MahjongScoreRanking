@@ -113,6 +113,14 @@ const AccountMgr = new AccountManagerForTest(new AccountManager());
 
 describe('Account Manager Test', function () {
     describe('On clean table container', function () {
+        beforeEach(function(done) {
+            AccountMgr.GetAccountCount().then(cnt => {
+                return cnt > 0 ? AccountMgr.DeleteAllAccount() : Promise.resolve(null);
+            })
+            .finally(() => {
+                done();
+            });
+        });
         it('create pre password/default', function () {
             const AccountMgrForCreatePrePassword = new AccountManager();
             assert.match(AccountMgrForCreatePrePassword.createPrePassword(), /^[0-9a-zA-Z]{8}$/);
