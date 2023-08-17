@@ -142,6 +142,7 @@ describe('Account Manager Test', function () {
                     })
                     .catch((er: Error) => {
                         console.error(er.message);
+                        assert.fail();
                     })
                     .finally(() => {
                         done();
@@ -158,6 +159,7 @@ describe('Account Manager Test', function () {
                     })
                     .catch((er: Error) => {
                         console.error(er.message);
+                        assert.fail();
                     })
                     .finally(() => {
                         done();
@@ -166,6 +168,7 @@ describe('Account Manager Test', function () {
         });
     });
     describe('On data include container', function () {
+        this.timeout('20s');
         beforeEach(function (done) {
             AccountMgr.SetupAccounts().then(() => {
                 done();
@@ -182,7 +185,9 @@ describe('Account Manager Test', function () {
                 .then(result => {
                     assert.ok(!AllIDs.includes(result));
                 })
-                .catch()
+                .catch(() => {
+                    assert.fail();
+                })
                 .finally();
         });
         it('get user', function (done) {
@@ -193,8 +198,8 @@ describe('Account Manager Test', function () {
                     assert.deepStrictEqual(result, expected);
                 })
                 .catch((er: Error) => {
-                    assert.fail();
                     console.error(er.message);
+                    assert.fail();
                 })
                 .finally(() => {
                     done();
@@ -280,6 +285,7 @@ describe('Account Manager Test', function () {
                 })
                 .catch((er: Error) => {
                     console.error(er.message);
+                    assert.fail();
                 })
                 .finally(() => {
                     done();
@@ -307,8 +313,9 @@ describe('Account Manager Test', function () {
                     .then(id => {
                         assert.strictEqual(id, TargetAccount.sysid);
                     })
-                    .catch(() => {
-                        assert.ok(true);
+                    .catch((er: Error) => {
+                        console.error(er.message);
+                        assert.fail();
                     });
                 const FailedSignIn = AccountMgr.SignIn(TargetAccount.id, TargetAccount.password)
                     .then(() => {
@@ -327,118 +334,124 @@ describe('Account Manager Test', function () {
                 done();
             });
         });
-    });
-    it('change privilege', function (done) {
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        AccountMgr.ChangePrivilege(TargetAccount.sysid, 0)
-            .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
-            .then(record => {
-                assert.strictEqual(record.privilege, 0);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('change user info/no update', function (done) {
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        const expected = ACINFO_TO_USRINFO(TargetAccount);
-        AccountMgr.ChangeUserInfo(TargetAccount.sysid, {})
-            .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
-            .then(record => {
-                assert.deepStrictEqual(record, expected);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('change user info/name update', function (done) {
-        const arg = {
-            id: 'aoi_otokoe',
-        };
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        const expected = ACINFO_TO_USRINFO(TargetAccount);
-        expected.id = arg.id;
-        AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-            .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
-            .then(record => {
-                assert.deepStrictEqual(record, expected);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('change user info/id update', function (done) {
-        const arg = {
-            name: '一ノ瀬桜子',
-        };
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        const expected = ACINFO_TO_USRINFO(TargetAccount);
-        expected.name = arg.name;
-        AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-            .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
-            .then(record => {
-                assert.deepStrictEqual(record, expected);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('test/both update', function (done) {
-        const arg = {
-            id: 'otokoe_sakurako',
-            name: '一ノ瀬桜子',
-        };
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        const expected = ACINFO_TO_USRINFO(TargetAccount);
-        expected.id = arg.id;
-        expected.name = arg.name;
-        AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-            .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
-            .then(record => {
-                assert.deepStrictEqual(record, expected);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('get system id/valid', function (done) {
-        const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-        AccountMgr.GetSystemID(TargetAccount.id)
-            .then(result => {
-                assert.strictEqual(result, TargetAccount.sysid);
-            })
-            .catch(() => {
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
-    });
-    it('get system id/invalid', function (done) {
-        AccountMgr.GetSystemID(AllAccounts.invalid_user.id)
-            .then(() => {
-                assert.fail();
-            })
-            .catch(() => {
-                assert.ok(true);
-            })
-            .finally(() => {
-                done();
-            });
+        it('change privilege', function (done) {
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            AccountMgr.ChangePrivilege(TargetAccount.sysid, 0)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
+                .then(record => {
+                    assert.strictEqual(record.privilege, 0);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('change user info/no update', function (done) {
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            const expected = ACINFO_TO_USRINFO(TargetAccount);
+            AccountMgr.ChangeUserInfo(TargetAccount.sysid, {})
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
+                .then(record => {
+                    assert.deepStrictEqual(record, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('change user info/name update', function (done) {
+            const arg = {
+                id: 'aoi_otokoe',
+            };
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            const expected = ACINFO_TO_USRINFO(TargetAccount);
+            expected.id = arg.id;
+            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+                .then(record => {
+                    assert.deepStrictEqual(record, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('change user info/id update', function (done) {
+            const arg = {
+                name: '一ノ瀬桜子',
+            };
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            const expected = ACINFO_TO_USRINFO(TargetAccount);
+            expected.name = arg.name;
+            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+                .then(record => {
+                    assert.deepStrictEqual(record, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('test/both update', function (done) {
+            const arg = {
+                id: 'otokoe_sakurako',
+                name: '一ノ瀬桜子',
+            };
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            const expected = ACINFO_TO_USRINFO(TargetAccount);
+            expected.id = arg.id;
+            expected.name = arg.name;
+            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+                .then(record => {
+                    assert.deepStrictEqual(record, expected);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('get system id/valid', function (done) {
+            const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
+            AccountMgr.GetSystemID(TargetAccount.id)
+                .then(result => {
+                    assert.strictEqual(result, TargetAccount.sysid);
+                })
+                .catch((er: Error) => {
+                    console.error(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+        it('get system id/invalid', function (done) {
+            AccountMgr.GetSystemID(AllAccounts.invalid_user.id)
+                .then(() => {
+                    assert.fail();
+                })
+                .catch(() => {
+                    assert.ok(true);
+                })
+                .finally(() => {
+                    done();
+                });
+        });
     });
 });
