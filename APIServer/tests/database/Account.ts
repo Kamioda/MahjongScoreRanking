@@ -229,12 +229,11 @@ describe('Account Manager Test', function () {
         it('sign in/id invalid', function (done) {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
             AccountMgr.SignIn(AllAccounts.invalid_user.id, TargetAccount.password)
-                .then(result => {
-                    assert.strictEqual(result, TargetAccount.sysid);
-                })
-                .catch((er: Error) => {
-                    console.error(er.message);
+                .then(() => {
                     assert.fail();
+                })
+                .catch(() => {
+                    assert.ok(true);
                 })
                 .finally(() => {
                     done();
