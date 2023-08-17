@@ -24,8 +24,6 @@ jobs:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
       - uses: actions/checkout@v3
-      - name: Database Permission Change
-        run: mysql -h localhost --port 3306 -u root -proot -e 'GRANT ALL PRIVILEGES ON mahjongranking.* TO mahjongranking;'
       - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
