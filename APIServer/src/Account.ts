@@ -66,14 +66,16 @@ export default class AccountManager {
             .then(() => AccountInfo);
     }
     async ChangePassword(SystemID: string, NewPassword: string) {
-        await this.Client.accounts.update({
+        const HashedPassword = HashPassword(NewPassword);
+        return await this.Client.accounts.update({
             data: {
-                Password: HashPassword(NewPassword),
+                Password: HashedPassword,
             },
             where: {
                 ID: SystemID,
             },
-        });
+        })
+        .then(result => result.Password === HashedPassword);
     }
     async ChangeUserInfo(ID: string, NewRecord: UserInformation) {
         const UpdateInfo = {};
