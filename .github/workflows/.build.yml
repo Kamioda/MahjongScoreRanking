@@ -1,8 +1,8 @@
 name: build
 on: [push]
 jobs:
-  test:
-    name: test
+  test_api:
+    name: api test
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -12,6 +12,7 @@ jobs:
           node-version: '20'
           cache: npm
       - run: 
+          cd ./APIServer
           npm ci
           npm run init:test
           npm run migrate:test
