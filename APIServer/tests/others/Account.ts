@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { HashPassword, IsNullOrWhiteSpace } from '../../src/Account';
 import assert from 'assert';
 
-describe('Account submodule test', function() {
+describe('Account submodule test', function () {
     describe('Hash password test', function () {
         it('test', function () {
             assert.strictEqual(
@@ -11,19 +11,17 @@ describe('Account submodule test', function() {
             );
         });
     });
-    
-    describe('IsNullOrWhiteSpace test', function (){
-        it('true', function() {
+
+    describe('IsNullOrWhiteSpace test', function () {
+        it('true', function () {
             assert.strictEqual(IsNullOrWhiteSpace(null), true);
             assert.strictEqual(IsNullOrWhiteSpace(undefined), true);
             assert.strictEqual(IsNullOrWhiteSpace(''), true);
             assert.strictEqual(IsNullOrWhiteSpace(' '), true);
             assert.strictEqual(IsNullOrWhiteSpace('  '), true);
         });
-        it('false', function() {
+        it('false', function () {
             assert.strictEqual(IsNullOrWhiteSpace('あ'), false);
         });
     });
-})
-
-
+});
