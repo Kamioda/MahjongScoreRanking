@@ -266,9 +266,9 @@ describe('Account Manager Test', function () {
         });
         it('delete user', function (done) {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
-            AccountMgr.DeleteUser(TargetAccount.id)
+            AccountMgr.DeleteUser(TargetAccount.sysid)
                 .then(() => {
-                    return AccountMgr.GetAccountInfo(TargetAccount.id)
+                    return AccountMgr.GetAccountInfo(TargetAccount.sysid)
                         .then(() => {
                             assert.fail();
                         })
@@ -378,8 +378,8 @@ describe('Account Manager Test', function () {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
             const expected = ACINFO_TO_USRINFO(TargetAccount);
             expected.id = arg.id;
-            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+            AccountMgr.ChangeUserInfo(TargetAccount.sysid, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
                 .then(record => {
                     assert.deepStrictEqual(record, expected);
                 })
@@ -398,8 +398,8 @@ describe('Account Manager Test', function () {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
             const expected = ACINFO_TO_USRINFO(TargetAccount);
             expected.name = arg.name;
-            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+            AccountMgr.ChangeUserInfo(TargetAccount.sysid, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
                 .then(record => {
                     assert.deepStrictEqual(record, expected);
                 })
@@ -420,8 +420,8 @@ describe('Account Manager Test', function () {
             const expected = ACINFO_TO_USRINFO(TargetAccount);
             expected.id = arg.id;
             expected.name = arg.name;
-            AccountMgr.ChangeUserInfo(TargetAccount.id, arg)
-                .then(() => AccountMgr.GetAccountInfo(TargetAccount.id))
+            AccountMgr.ChangeUserInfo(TargetAccount.sysid, arg)
+                .then(() => AccountMgr.GetAccountInfo(TargetAccount.sysid))
                 .then(record => {
                     assert.deepStrictEqual(record, expected);
                 })
