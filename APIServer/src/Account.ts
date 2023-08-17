@@ -65,13 +65,13 @@ export default class AccountManager {
             )
             .then(() => AccountInfo);
     }
-    async ChangePassword(ID: string, NewPassword: string) {
+    async ChangePassword(SystemID: string, NewPassword: string) {
         await this.Client.accounts.update({
             data: {
                 Password: HashPassword(NewPassword),
             },
             where: {
-                ID: ID,
+                ID: SystemID,
             },
         });
     }
@@ -87,17 +87,17 @@ export default class AccountManager {
             },
         });
     }
-    async ChangePrivilege(ID: string, NewPriv: number) {
-        await this.Client.accounts.update({
+    async ChangePrivilege(SystemID: string, NewPriv: number) {
+        return await this.Client.accounts.update({
             data: {
                 AccountLevel: NewPriv,
             },
             where: {
-                ID: ID,
+                ID: SystemID,
             },
         });
     }
-    async GetAccountInfo(ID: string): Promise<UserInformation> {
+    async GetAccountInfo(SystemID: string): Promise<UserInformation> {
         return await this.Client.accounts
             .findUnique({
                 select: {
@@ -107,11 +107,11 @@ export default class AccountManager {
                     AccountLevel: true,
                 },
                 where: {
-                    ID: ID,
+                    ID: SystemID,
                 },
             })
             .then(result => {
-                if (result == null || result.ID !== ID) throw new Error('アカウントが見つかりません');
+                if (result == null || result.ID !== SystemID) throw new Error('アカウントが見つかりません');
                 return {
                     id: result.UserID,
                     name: result.UserName,
@@ -136,7 +136,7 @@ export default class AccountManager {
                 return results[0].ID;
             });
     }
-    async SignIn(ID, Password): Promise<string> {
+    async SignIn(UserID, Password): Promise<string> {
         return await this.Client.accounts
             .findMany({
                 select: {
@@ -145,19 +145,19 @@ export default class AccountManager {
                     Password: true,
                 },
                 where: {
-                    UserID: ID,
+                    UserID: UserID,
                 },
             })
             .then(result => {
-                if (result.length !== 1 || result[0].UserID !== ID || result[0].Password !== HashPassword(Password))
+                if (result.length !== 1 || result[0].UserID !== UserID || result[0].Password !== HashPassword(Password))
                     throw new Error('IDまたはパスワードが違います');
                 return result[0].ID;
             });
     }
-    async DeleteUser(ID: string) {
+    async DeleteUser(SystemID: string) {
         return await this.Client.accounts.delete({
             where: {
-                ID: ID,
+                ID: SystemID,
             },
         });
     }
