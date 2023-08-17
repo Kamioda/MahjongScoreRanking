@@ -87,21 +87,25 @@ class AccountManagerForTest {
             );
     }
     async SetupAccounts() {
-        const AddProcess = AllAccounts.users.map(async u => {
-            return this.AMI.Client.accounts.create({
-                data: {
-                    ID: u.sysid,
-                    UserID: u.id,
-                    UserName: u.name,
-                    Password: HashPassword(u.password),
-                    AccountLevel: u.privilege,
-                },
+        return await this.DeleteAllAccount()
+            .then(() => {
+                const AddProcess = AllAccounts.users.map(async u => {
+                    return this.AMI.Client.accounts
+                        .create({
+                            data: {
+                                ID: u.sysid,
+                                UserID: u.id,
+                                UserName: u.name,
+                                Password: HashPassword(u.password),
+                                AccountLevel: u.privilege,
+                            },
+                        });
+                });
+                return Promise.all(AddProcess);
             });
-        });
-        return await Promise.all(AddProcess);
     }
     async DeleteAllAccount() {
-        this.AMI.Client.accounts.deleteMany();
+        return this.AMI.Client.accounts.deleteMany();
     }
 }
 
