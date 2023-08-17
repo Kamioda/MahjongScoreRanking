@@ -17,11 +17,13 @@ jobs:
           npm ci
           npm run init:test
           npm run migrate:test
+        working-directory: "./APIServer"
       - name: Execute test
         run: 
           npm run init:test
           npm run migrate:test
           npm run ci
+        working-directory: "./APIServer"
       - name: Publish coverage
         uses: coverallsapp/github-action@master
         with:
