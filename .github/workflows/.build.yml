@@ -12,9 +12,9 @@ jobs:
           node-version: '20'
           cache: npm
       - run: 
+          npm ci
           npm run init:test
           npm run migrate:test
-          npm ci
       - name: Execute test
         run: 
           npm run init:test
