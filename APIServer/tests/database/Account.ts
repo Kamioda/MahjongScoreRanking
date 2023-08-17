@@ -182,12 +182,7 @@ describe('Account Manager Test', function () {
     describe('On data include container', function () {
         this.timeout('20s');
         beforeEach(function (done) {
-            AccountMgr.SetupAccounts().then(() => {
-                done();
-            });
-        });
-        afterEach(function (done) {
-            AccountMgr.DeleteAllAccount().finally(() => {
+            AccountMgr.SetupAccounts().finally(() => {
                 done();
             });
         });
