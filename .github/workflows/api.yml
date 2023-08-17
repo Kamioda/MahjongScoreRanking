@@ -5,6 +5,21 @@ jobs:
   test_api:
     name: api test
     runs-on: ubuntu-20.04
+    services:
+      db:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: mahjongranking
+          MYSQL_PASSWORD: mahjongrankingservice001
+          MYSQL_DATABASE: mahjongranking
+          options: >-
+            --health-cmd "mysqladmin ping"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 20.x
@@ -14,17 +29,11 @@ jobs:
           cache: npm
           cache-dependency-path: ./APIServer
       - run: |
-          npm install @prisma/client
-          npm run init:test
-          npm run wait:test
           npm run migrate:test
           npm ci
         working-directory: "./APIServer"
       - name: Execute test
         run: |
-          npm install @prisma/client
-          npm run init:test
-          npm run wait:test
           npm run migrate:test
           npm run ci
         working-directory: "./APIServer"
