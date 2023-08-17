@@ -72,34 +72,36 @@ export default class AccountManager {
     }
     async ChangePassword(SystemID: string, NewPassword: string) {
         const HashedPassword = HashPassword(NewPassword);
-        return await this.Client.accounts.update({
-            data: {
-                Password: HashedPassword,
-            },
-            where: {
-                ID: SystemID,
-            },
-        })
-        .then(result => result.Password === HashedPassword);
+        return await this.Client.accounts
+            .update({
+                data: {
+                    Password: HashedPassword,
+                },
+                where: {
+                    ID: SystemID,
+                },
+            })
+            .then(result => result.Password === HashedPassword);
     }
     async ChangeUserInfo(ID: string, NewRecord: NewUserInformation): Promise<UserInformation | void> {
         const UpdateInfo = {};
         if (NewRecord.id !== null) UpdateInfo['UserID'] = NewRecord.id;
         if (NewRecord.name !== null) UpdateInfo['UserName'] = NewRecord.name;
         if (Object.keys(UpdateInfo).length === 0) return;
-        return await this.Client.accounts.update({
-            data: UpdateInfo,
-            where: {
-                ID: ID,
-            },
-        })
-        .then(newRecord => {
-            return {
-                id: newRecord.UserID,
-                name: newRecord.UserName,
-                privilege: newRecord.AccountLevel
-            }
-        });
+        return await this.Client.accounts
+            .update({
+                data: UpdateInfo,
+                where: {
+                    ID: ID,
+                },
+            })
+            .then(newRecord => {
+                return {
+                    id: newRecord.UserID,
+                    name: newRecord.UserName,
+                    privilege: newRecord.AccountLevel,
+                };
+            });
     }
     async ChangePrivilege(SystemID: string, NewPriv: number) {
         return await this.Client.accounts.update({

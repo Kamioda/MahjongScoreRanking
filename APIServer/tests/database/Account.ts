@@ -87,22 +87,20 @@ class AccountManagerForTest {
             );
     }
     async SetupAccounts() {
-        return await this.DeleteAllAccount()
-            .then(() => {
-                const AddProcess = AllAccounts.users.map(async u => {
-                    return this.AMI.Client.accounts
-                        .create({
-                            data: {
-                                ID: u.sysid,
-                                UserID: u.id,
-                                UserName: u.name,
-                                Password: HashPassword(u.password),
-                                AccountLevel: u.privilege,
-                            },
-                        });
+        return await this.DeleteAllAccount().then(() => {
+            const AddProcess = AllAccounts.users.map(async u => {
+                return this.AMI.Client.accounts.create({
+                    data: {
+                        ID: u.sysid,
+                        UserID: u.id,
+                        UserName: u.name,
+                        Password: HashPassword(u.password),
+                        AccountLevel: u.privilege,
+                    },
                 });
-                return Promise.all(AddProcess);
             });
+            return Promise.all(AddProcess);
+        });
     }
     async DeleteAllAccount() {
         return this.AMI.Client.accounts.deleteMany();
@@ -113,13 +111,14 @@ const AccountMgr = new AccountManagerForTest(new AccountManager());
 
 describe('Account Manager Test', function () {
     describe('On clean table container', function () {
-        beforeEach(function(done) {
-            AccountMgr.GetAccountCount().then(cnt => {
-                return cnt > 0 ? AccountMgr.DeleteAllAccount() : Promise.resolve(null);
-            })
-            .finally(() => {
-                done();
-            });
+        beforeEach(function (done) {
+            AccountMgr.GetAccountCount()
+                .then(cnt => {
+                    return cnt > 0 ? AccountMgr.DeleteAllAccount() : Promise.resolve(null);
+                })
+                .finally(() => {
+                    done();
+                });
         });
         it('create pre password/default', function () {
             const AccountMgrForCreatePrePassword = new AccountManager();
@@ -332,18 +331,14 @@ describe('Account Manager Test', function () {
                     });
                 return Promise.all([SuccessSignIn, FailedSignIn]);
             });
-            Promise.all([
-                SignInBeforeChangePassword_Success,
-                SignInBeforeChangePassword_Fail,
-                Promise_ChangePassword,
-            ])
-            .catch((er: Error) => {
-                console.log(er.message);
-                assert.fail();
-            })
-            .finally(() => {
-                done();
-            });
+            Promise.all([SignInBeforeChangePassword_Success, SignInBeforeChangePassword_Fail, Promise_ChangePassword])
+                .catch((er: Error) => {
+                    console.log(er.message);
+                    assert.fail();
+                })
+                .finally(() => {
+                    done();
+                });
         });
         it('change privilege', function (done) {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];
