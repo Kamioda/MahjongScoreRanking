@@ -3,7 +3,7 @@ on: [push]
 
 defaults:
   run:
-    working-directory: ./APIServer
+    working-directory: "./APIServer"
 
 jobs:
   test_api:
