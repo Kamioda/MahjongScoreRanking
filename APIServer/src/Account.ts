@@ -144,14 +144,7 @@ export default class AccountManager {
                     Password: true,
                 },
                 where: {
-                    OR: [
-                        {
-                            ID: ID,
-                        },
-                        {
-                            UserID: ID,
-                        },
-                    ],
+                    UserID: ID,
                 },
             })
             .then(result => {
