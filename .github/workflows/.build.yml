@@ -11,8 +11,8 @@ jobs:
         with:
           node-version: '20'
           cache: npm
+          scan: ./APIServer
       - run: 
-          cd ./APIServer
           npm ci
           npm run init:test
           npm run migrate:test
