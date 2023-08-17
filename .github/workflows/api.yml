@@ -16,11 +16,13 @@ jobs:
       - run: 
           npm ci
           npm run init:test
+          npm run wait:test
           npm run migrate:test
         working-directory: "./APIServer"
       - name: Execute test
         run: 
           npm run init:test
+          npm run wait:test
           npm run migrate:test
           npm run ci
         working-directory: "./APIServer"
