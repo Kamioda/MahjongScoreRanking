@@ -20,7 +20,7 @@
     "test": "dotenv -e .env -- ts-mocha -p ./tsconfig.json ./tests/**/*.ts",
     "init:test": "docker-compose up -d",
     "migrate:test": "dotenv -e .env -- npx prisma migrate dev",
-    "wait:test": "./wait.sh",
+    "wait:test": "node ./scripts/wait.js",
     "build": "tsc"
   },
   "author": "Kamioda",
