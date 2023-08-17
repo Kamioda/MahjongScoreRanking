@@ -21,7 +21,7 @@ jobs:
             --health-timeout 5s
             --health-retries 5
         volumes:
-          - ./APIServer/docker/db:/privileges.sql
+          - ./APIServer/docker/db:/initdb.d
     env:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
