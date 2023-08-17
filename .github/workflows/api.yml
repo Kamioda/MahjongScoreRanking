@@ -14,6 +14,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./APIServer
       - run: |
+          chmod 775 ./wait.sh
           npm ci
           npm run init:test
           npm run wait:test
@@ -21,6 +22,7 @@ jobs:
         working-directory: "./APIServer"
       - name: Execute test
         run: |
+          chmod 775 ./wait.sh
           npm run init:test
           npm run wait:test
           npm run migrate:test
