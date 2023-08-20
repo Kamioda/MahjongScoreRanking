@@ -13,10 +13,7 @@ jobs:
         working-directory: "./APIServer"
     services:
       db:
-        build:
-          context: ./APIServer/docker/db
-          dockerfile: Dockerfile
-        image: mahjongtestdb
+        image: mysql:latest
         options: "--name=mysql"
         ports:
           - 3306:3306
