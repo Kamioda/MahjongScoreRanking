@@ -29,6 +29,8 @@ jobs:
     env:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
+      - run: sudo docker ps
+      - run: sudo docker network ls
       - uses: actions/checkout@v3
       - name: Use Node.js 20.x
         uses: actions/setup-node@v3
