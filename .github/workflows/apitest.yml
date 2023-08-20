@@ -40,7 +40,7 @@ jobs:
           node-version: '20'
           cache: npm
           cache-dependency-path: ./APIServer
-      - run: mysql --verbose -h 127.0.0.1 -P 3306 -u root -proot < ./docker/db/privileges.sql
+      - run: mysql --protocol=tcp --verbose -h 127.0.0.1 -P 3306 -u root -proot < ./docker/db/privileges.sql
       - run: npm ci
       - name: Execute test
         run: |
