@@ -26,8 +26,6 @@ jobs:
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
-        volumes:
-          - ./APIServer/docker/db:/docker-entrypoint-initdb.d
     env:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
@@ -38,6 +36,7 @@ jobs:
           node-version: '20'
           cache: npm
           cache-dependency-path: ./APIServer
+      - run: mysql -h 127.0.0.1 -P 3306 -u root -proot < ./docker/db/privileges.sql
       - run: |
           npm run migrate:test
           npm ci
