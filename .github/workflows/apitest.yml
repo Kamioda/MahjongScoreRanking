@@ -37,9 +37,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./APIServer
       - run: mysql -h 127.0.0.1 -P 3306 -u root -proot < ./docker/db/privileges.sql
-      - run: |
-          npm run migrate:test
-          npm ci
+      - run: npm ci
       - name: Execute test
         run: |
           npm run migrate:test
