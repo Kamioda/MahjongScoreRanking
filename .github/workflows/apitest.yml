@@ -44,6 +44,7 @@ jobs:
         run: |
           npm run migrate:test
           npm run ci
+          ls
       - name: Publish coverage
         uses: coverallsapp/github-action@master
         with:
