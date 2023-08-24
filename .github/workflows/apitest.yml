@@ -1,5 +1,8 @@
-name: test api
-on: [push]
+name: api dev test
+on:
+  push:
+    branches:
+      - dev
 
 jobs:
   test_api:
@@ -10,7 +13,8 @@ jobs:
         working-directory: "./APIServer"
     services:
       db:
-        image: mysql:latest
+        image: ghcr.io/kamioda/mjrankingtestdb:v1.0.0 
+        options: "--name=mysql"
         ports:
           - 3306:3306
         env:
@@ -27,20 +31,22 @@ jobs:
       DATABASE_URL: "mysql://mahjongranking:mahjongrankingservice001@localhost:3306/mahjongranking"
     steps:
       - uses: actions/checkout@v3
+      - run: sudo docker ps
+      - run: sudo docker network ls
       - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: ./APIServer
-      - run: |
-          npm run migrate:test
-          npm ci
+      - run: npm ci
       - name: Execute test
         run: |
           npm run migrate:test
           npm run ci
+          ls
       - name: Publish coverage
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./APIServer/coverage/lcov.info

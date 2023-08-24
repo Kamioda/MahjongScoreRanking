@@ -185,7 +185,7 @@ describe('Account Manager Test', function () {
                 done();
             });
         });
-        it('create id', function () {
+        it('create id', function (done) {
             const AllIDs = AllAccounts.users.map(i => i.sysid);
             AccountMgr.createId()
                 .then(result => {
@@ -194,7 +194,9 @@ describe('Account Manager Test', function () {
                 .catch(() => {
                     assert.fail();
                 })
-                .finally();
+                .finally(() => {
+                    done();
+                });
         });
         it('get user', function (done) {
             const TargetAccount = AllAccounts.users[createRandom(0, AllAccounts.users.length - 1)];

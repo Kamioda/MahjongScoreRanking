@@ -1,0 +1,19 @@
+{
+    "default": "ja-jp",
+    "contents": [
+        {
+            "lang": "ja-jp",
+            "title": "麻雀スコアランキング",
+            "subtitles": {
+                "index": "トップ"
+            }
+        },
+        {
+            "lang": "en-us",
+            "title": "Mahjong Score Ranking",
+            "subtitles": {
+                "index": "Top"
+            }
+        }
+    ]
+}
