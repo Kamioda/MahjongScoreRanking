@@ -1,0 +1,7 @@
+article.ranking section {
+    float:flex;
+}
+
+article.ranking section p.score {
+    font-size: large;
+}
