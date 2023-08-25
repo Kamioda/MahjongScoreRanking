@@ -1,0 +1,6 @@
+[submodule "APIServer"]
+	path = APIServer
+	url = https://github.com/Kamioda/MahjongScoreRankingAPIServer.git
+[submodule "Page"]
+	path = Page
+	url = https://github.com/Kamioda/MahjongScoreRankingPage.git
