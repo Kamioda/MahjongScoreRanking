@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM mariadb:latest
 ARG UserName="mahjongranking"
 ARG InstallRoot="/home/"${UserName}"/"
 ARG PageDir=${InstallRoot}"wwwroot/"
