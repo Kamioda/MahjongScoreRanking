@@ -1,0 +1,2 @@
+GRANT all CREATE,ALTER,DROP,REFERENCES ON *.* TO mahjongranking;
+GRANT INSERT,SELECT,UPDATE,DELETE ON mahjongranking.* TO mahjongranking;

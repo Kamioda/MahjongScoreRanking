@@ -1,0 +1,1 @@
+GRANT all CREATE,ALTER,DROP,REFERENCES ON *.* TO mahjongranking;
